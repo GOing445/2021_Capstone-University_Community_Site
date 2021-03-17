@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/GOing445/2021_Capstone-University_Community_Site/issues"
   },
-  "homepage": "https://github.com/GOing445/2021_Capstone-University_Community_Site#readme"
+  "homepage": "https://github.com/GOing445/2021_Capstone-University_Community_Site#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
