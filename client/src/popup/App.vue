@@ -10,7 +10,7 @@ export default {
     return {
       msg: 'Welcome!'
     }
-  }
+  },
 }
 </script>
 
