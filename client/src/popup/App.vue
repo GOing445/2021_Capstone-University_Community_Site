@@ -1,18 +1,19 @@
 <template>
-  <div>
-    <h1>{{ msg }}</h1>
-  </div>
+	<hello-world />
 </template>
 
 <script>
+import HelloWorld from '@/components/HelloWorld.vue';
+
 export default {
-  data() {
-    return {
-      msg: 'Welcome!'
-    }
-  },
-}
+	name: 'App',
+	components: { HelloWorld },
+};
 </script>
 
-<style lang="stylus">
+<style>
+html {
+	width: 400px;
+	height: 400px;
+}
 </style>
