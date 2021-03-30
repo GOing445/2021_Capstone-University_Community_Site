@@ -17,6 +17,13 @@
   },
   "homepage": "https://github.com/GOing445/2021_Capstone-University_Community_Site#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "-": "0.0.1",
+    "collections": "^5.1.12",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mysql": "^2.18.1",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "save": "^2.4.0"
   }
 }
