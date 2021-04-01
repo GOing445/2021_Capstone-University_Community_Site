@@ -1,7 +1,9 @@
 <template>
 	<v-app>
 		<app-header />
-		<router-view id="app-body" />
+		<transition name="page" mode="out-in">
+			<router-view id="app-body" />
+		</transition>
 	</v-app>
 </template>
 
@@ -26,5 +28,15 @@ html {
 
 #app-body {
 	height: 528px;
+}
+
+.page-enter-active,
+.page-leave-active {
+	transition: opacity 0.5s, transform 0.5s;
+}
+.page-enter,
+.page-leave-to {
+	opacity: 0;
+	transform: translateX(-30%);
 }
 </style>

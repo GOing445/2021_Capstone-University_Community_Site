@@ -13,6 +13,10 @@ const routes = [
 		component: () => import('@/views/MainPage.vue'),
 	},
 	{
+		path: '/add_class',
+		component: () => import('@/views/AddClassPage.vue'),
+	},
+	{
 		path: '/login',
 		component: () => import('@/views/LoginPage.vue'),
 	},

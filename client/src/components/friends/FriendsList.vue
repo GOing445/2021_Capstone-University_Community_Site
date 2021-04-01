@@ -46,20 +46,20 @@ export default {
 			{
 				active: true,
 				avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-				title: 'Jason Oner',
+				title: '김수빈',
 			},
 			{
 				active: true,
 				avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-				title: 'Mike Carlson',
+				title: '박호성',
 			},
 			{
 				avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-				title: 'Cindy Baker',
+				title: '이연권',
 			},
 			{
 				avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-				title: 'Ali Connors',
+				title: '최두영',
 			},
 		],
 		previous: [
