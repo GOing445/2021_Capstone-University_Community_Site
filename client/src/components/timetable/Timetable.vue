@@ -2,6 +2,7 @@
 	<v-sheet height="528">
 		<v-calendar
 			ref="calendar"
+			start="1999-01-01"
 			type="week"
 			:weekday-format="weekName"
 			:weekdays="[1, 2, 3, 4, 5]"
@@ -65,6 +66,7 @@ export default {
 			},
 		],
 	}),
+
 	methods: {
 		weekName(day) {
 			switch (day.weekday) {
