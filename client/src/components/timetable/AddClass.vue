@@ -1,8 +1,6 @@
 <template>
 	<div>
-		<v-card-title>
-			<span class="headline">시간표 추가</span>
-		</v-card-title>
+		<v-subheader>시간표 추가</v-subheader>
 		<v-card-text>
 			<v-form ref="form" v-model="valid" lazy-validation>
 				<v-container>

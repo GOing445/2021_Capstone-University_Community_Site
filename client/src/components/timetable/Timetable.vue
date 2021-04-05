@@ -2,70 +2,110 @@
 	<v-sheet height="528">
 		<v-calendar
 			ref="calendar"
-			start="1999-01-01"
 			type="week"
+			:start="startDay"
 			:weekday-format="weekName"
 			:weekdays="[1, 2, 3, 4, 5]"
 			:first-interval="8"
 			:interval-count="15"
 			:events="events"
+			:event-color="eventColor"
 			@click:event="showEvent"
 		>
 			<template v-slot:event="{ event }">
-				<div class="fill-height pl-2">{{ event.name }}</div>
+				<class-box :eventName="event.name" :classroom="event.classroom" />
 			</template>
 		</v-calendar>
-		<v-menu
-			v-model="selectedOpen"
-			:close-on-content-click="false"
-			:activator="selectedElement"
-			offset-x
-		>
-			<v-card color="grey lighten-4" min-width="350px" flat>
-				<v-toolbar :color="selectedEvent.color" dark>
-					<v-btn icon>
-						<v-icon>mdi-pencil</v-icon>
-					</v-btn>
-					<v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-					<v-spacer></v-spacer>
-					<v-btn icon>
-						<v-icon>mdi-dots-vertical</v-icon>
-					</v-btn>
-				</v-toolbar>
-				<v-card-text>
-					<span v-html="selectedEvent.details"></span>
-				</v-card-text>
-				<v-card-actions>
-					<v-btn text color="secondary" @click="selectedOpen = false">
-						닫기
-					</v-btn>
-				</v-card-actions>
-			</v-card>
-		</v-menu>
 	</v-sheet>
 </template>
 <script>
+import ClassBox from '@/components/timetable/ClassBox';
+
+import { formatDate } from '@/utils/date';
+
 export default {
+	components: { ClassBox },
+
 	data: () => ({
-		value: '',
-		weekdays: [1, 2, 3, 4, 5],
-		selectedEvent: {},
-		selectedElement: null,
-		selectedOpen: false,
-		events: [
+		color: ['rgba(92, 107, 192, 0.7)'],
+		events: [],
+		timetable: [
 			{
-				name: '안녕하세요',
-				start: '2021-04-01 09:00',
-				end: '2021-04-01 10:00',
-				color: 'red',
+				day: 1,
+				className: '빅 데이터 프로그래밍',
+				classroom: '프젝3',
+				start: '10:00',
+				end: '12:50',
 			},
 			{
-				name: '하이루루루루루루루루루루',
-				start: '2021-04-01 12:30',
-				end: '2021-04-01 15:30',
+				day: 1,
+				className: 'IoT개론 및 프로그래밍',
+				classroom: '프젝1',
+				start: '14:00',
+				end: '16:50',
+			},
+			{
+				day: 2,
+				className: 'UML',
+				classroom: '프젝3',
+				start: '10:00',
+				end: '12:50',
+			},
+			{
+				day: 2,
+				className: '캡스톤디자인',
+				classroom: '프로3',
+				start: '14:00',
+				end: '16:50',
+			},
+			{
+				day: 3,
+				className: 'AI개론',
+				classroom: '프젝3',
+				start: '14:00',
+				end: '16:50',
+			},
+			{
+				day: 4,
+				className: 'Linux 운영체제',
+				classroom: '프젝2',
+				start: '10:00',
+				end: '12:50',
+			},
+			{
+				day: 4,
+				className: 'ERP',
+				classroom: '프로2',
+				start: '14:00',
+				end: '16:50',
+			},
+			{
+				day: 5,
+				className: '근로',
+				classroom: '원스톱지원실',
+				start: '09:00',
+				end: '18:00',
 			},
 		],
 	}),
+
+	computed: {
+		startDay() {
+			const today = new Date();
+			if (today.getDay() === 0 || today.getDate === 6) {
+				today.setDate(today.getDate() - 2);
+				return formatDate(today);
+			}
+			return formatDate(today);
+		},
+		eventColor() {
+			return this.color[Math.floor(Math.random() * 1)];
+		},
+	},
+
+	created() {
+		this.setEvents(this.timetable);
+	},
 
 	methods: {
 		weekName(day) {
@@ -86,25 +126,21 @@ export default {
 					return '토';
 			}
 		},
-		showEvent({ nativeEvent, event }) {
-			const open = () => {
-				this.selectedEvent = event;
-				this.selectedElement = nativeEvent.target;
-				setTimeout(() => {
-					this.selectedOpen = true;
-				}, 10);
-			};
+		setEvents(timetable) {
+			const sunday = new Date();
+			if (sunday.getDay() === 0) sunday.setDate(sunday.getDate() - 7);
+			else sunday.setDate(sunday.getDate() - sunday.getDay());
 
-			if (this.selectedOpen) {
-				this.selectedOpen = false;
-				setTimeout(open, 10);
-			} else {
-				open();
+			for (const el of timetable) {
+				const addClass = { name: el.className, classroom: el.classroom };
+				const newDay = new Date(sunday);
+				newDay.setDate(newDay.getDate() + el.day);
+				addClass.start = `${formatDate(newDay)} ${el.start}`;
+				addClass.end = `${formatDate(newDay)} ${el.end}`;
+				this.events.push(addClass);
 			}
-
-			nativeEvent.stopPropagation();
 		},
 	},
 };
 </script>
-<style></style>
+<style scoped></style>

@@ -1,14 +1,19 @@
 module.exports = {
 	root: true,
+
 	env: {
 		node: true,
+		jest: true,
 		webextensions: true,
 	},
+
 	extends: ['plugin:vue/essential', 'plugin:prettier/recommended'],
 	plugins: ['prettier'],
+
 	parserOptions: {
 		parser: 'babel-eslint',
 	},
+
 	rules: {
 		'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
@@ -28,4 +33,16 @@ module.exports = {
 			},
 		],
 	},
+
+	overrides: [
+		{
+			files: [
+				'**/__tests__/*.{j,t}s?(x)',
+				'**/tests/unit/**/*.spec.{j,t}s?(x)',
+			],
+			env: {
+				jest: true,
+			},
+		},
+	],
 };
