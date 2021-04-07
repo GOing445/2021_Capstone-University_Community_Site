@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<timetable />
-		<v-btn color="pink" dark fixed bottom right fab small>
+		<v-btn color="error" dark fixed bottom right fab small>
 			<v-icon @click="$router.push('/add_class')">mdi-plus</v-icon>
 		</v-btn>
 	</div>

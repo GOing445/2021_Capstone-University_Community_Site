@@ -10,7 +10,6 @@
 			:interval-count="15"
 			:events="events"
 			:event-color="eventColor"
-			@click:event="showEvent"
 		>
 			<template v-slot:event="{ event }">
 				<class-box :eventName="event.name" :classroom="event.classroom" />
@@ -27,7 +26,7 @@ export default {
 	components: { ClassBox },
 
 	data: () => ({
-		color: ['rgba(92, 107, 192, 0.7)'],
+		color: ['rgba(63, 81, 181, 0.7)'],
 		events: [],
 		timetable: [
 			{
