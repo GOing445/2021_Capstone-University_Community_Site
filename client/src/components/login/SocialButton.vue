@@ -1,5 +1,5 @@
 <template>
-	<v-btn large width="300" :color="backgroundColor" class="mb-3 mt-3">
+	<v-btn large width="300" :color="backgroundColor" class="mb-5">
 		<v-row>
 			<v-col cols="1">
 				<v-avatar size="20">
