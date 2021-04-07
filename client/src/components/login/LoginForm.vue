@@ -3,13 +3,16 @@
 		<v-row align="center" justify="center">
 			<v-col align="center">
 				<v-img
-					:src="require('@/assets/logo.svg')"
-					class="mb-8"
+					:src="require('@/assets/logo.png')"
+					class="mb-5"
 					contain
-					height="70"
+					height="100"
 				/>
-				<v-card outlined max-width="400" height="300">
-					<h1 class="mt-3 login_text">로그인</h1>
+				<v-card outlined max-width="400" height="330">
+					<h1 class="grey--text text--darken-3 mt-4">로그인</h1>
+					<p class="grey--text text--darken-1 mb-6">
+						기존에 사용하시는 계정으로 간단하게 로그인하세요.
+					</p>
 					<social-button
 						v-for="button in socialButtons"
 						:key="button.text"
@@ -57,12 +60,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.login_form {
-	background-color: #eeeeee;
-}
-
-.login_text {
-	color: #404040;
-}
-</style>
+<style scoped></style>
