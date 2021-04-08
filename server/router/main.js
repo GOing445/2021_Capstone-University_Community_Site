@@ -16,4 +16,67 @@ module.exports = function(app, fs)
         res.send(req.session)
         console.log(req.user)
     });
+    
+    app.get('/api/test1',function(req,res){
+        var data = {schedule:[
+            {
+               day: 1,
+               className: '빅 데이터 프로그래밍',
+               classroom: '프젝3',
+               start: '10:00',
+               end: '12:50',
+            },
+            {
+               day: 1,
+               className: 'IoT개론 및 프로그래밍',
+               classroom: '프젝1',
+               start: '14:00',
+               end: '16:50',
+            },
+            {
+               day: 2,
+               className: 'UML',
+               classroom: '프젝3',
+               start: '10:00',
+               end: '12:50',
+            },
+            {
+               day: 2,
+               className: '캡스톤디자인',
+               classroom: '프로3',
+               start: '14:00',
+               end: '16:50',
+            },
+            {
+               day: 3,
+               className: 'AI개론',
+               classroom: '프젝3',
+               start: '14:00',
+               end: '16:50',
+            },
+            {
+               day: 4,
+               className: 'Linux 운영체제',
+               classroom: '프젝2',
+               start: '10:00',
+               end: '12:50',
+            },
+            {
+               day: 4,
+               className: 'ERP',
+               classroom: '프로2',
+               start: '14:00',
+               end: '16:50',
+            },
+            {
+               day: 5,
+               className: '근로',
+               classroom: '원스톱지원실',
+               start: '09:00',
+               end: '18:00',
+            },
+         ]};
+        res.send(data)
+        // console.log(req.user)
+    };
 };
