@@ -25,6 +25,10 @@ const routes = [
 		component: () => import('@/views/SignupPage.vue'),
 	},
 	{
+		path: '/contactus',
+		component: () => import('@/views/ContactUsPage.vue'),
+	},
+	{
 		path: '/friends',
 		component: () => import('@/views/FriendsPage.vue'),
 	},

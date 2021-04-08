@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extName__",
   "homepage_url": "http://localhost:8080/",
-  "description": "A Vue Browser Extension",
+  "description": "시간표 관리 및 커뮤니티 앱",
   "default_locale": "en",
   "permissions": [
     "<all_urls>",
@@ -13,6 +13,10 @@
     "48": "icons/48.png",
     "128": "icons/128.png"
   },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
   "browser_action": {
     "default_popup": "popup.html",
     "default_title": "__MSG_extName__",
@@ -20,5 +24,6 @@
       "19": "icons/19.png",
       "38": "icons/38.png"
     }
-  }
+  },
+  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'"
 }
