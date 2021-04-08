@@ -1,10 +1,14 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const config = require('./config.json');
+// console.log(config);
 const db = require('./database');
+const googleApi = config.googleApi;
 var session = require('express-session');  
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
+
 
 var fs = require("fs");
 
@@ -12,7 +16,7 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 })
 app.use(session({
-  secret: '!@#G1591O#@!$',
+  secret: config.EXPRESS.seesion_secret,
   resave: false,
   saveUninitialized: false
 }));
@@ -26,12 +30,9 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
-passport.use(new GoogleStrategy({
-    clientID: "361414825701-3tu4606c0n4vooqljg6kpd6ktup21ia2.apps.googleusercontent.com" ,
-    clientSecret: "u3pw9G8aMw7ft82tnrMVP3N5",
-    callbackURL: "/auth/google/callback"
-  },
+passport.use(new GoogleStrategy(config.GOOGLE,
   function(accessToken, refreshToken, profile, cb) {
+    console.log(accessToken);
     return cb(null, profile);
   }
 ));

@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var connection;
-const db_config = require("./DB.json");
+const db_config = require("./config.json").DB;
 var Map = require("collections/map");
 
 //NOTE 이렇게해도 되나싶음 더 좋은방법 있으면 알려주세요
@@ -12,7 +12,7 @@ global.DB = {
 async function init() {
     console.log(`DataBase : "${connection.config.host}:${connection.config.port}"`);
     console.log("init실행")
-    module.exports.fatchUsers();
+    // module.exports.fatchUsers();
 }
 // 커넥션이 만료되면 다시 연결해주는 코드
 module.exports.handleDisconnect = function() {

@@ -8,4 +8,4 @@
 ### other ###
 start.bat
 node_modules/
-server/DB.json
+server/config.json

@@ -7,7 +7,7 @@ module.exports = function(app, fs)
     });
     app.get('/login/:username',function(req, res) {
         var ip = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
-        console.log(`[${ip}] ${username}님이 웹사이트 로그인에 성공하셨습니다.`);
+        console.log(`[${ip}] ${req.params.username}님이 웹사이트 로그인에 성공하셨습니다.`);
         req.session.username = req.params.username;
         console.log(req.user);
         res.redirect('/session');
