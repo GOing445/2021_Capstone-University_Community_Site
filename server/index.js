@@ -32,7 +32,8 @@ passport.deserializeUser(function(user, done) {
 });
 passport.use(new GoogleStrategy(config.GOOGLE,
   function(accessToken, refreshToken, profile, cb) {
-    console.log(accessToken);
+    console.log(refreshToken)
+    profile.accessToken = accessToken;
     return cb(null, profile);
   }
 ));
