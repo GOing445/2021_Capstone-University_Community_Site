@@ -1,13 +1,12 @@
 const express = require('express');
 const app = express();
-const port = 3000;
 const config = require('./config.json');
-// console.log(config);
+console.log(config);
 const db = require('./database');
-const googleApi = config.googleApi;
 var session = require('express-session');  
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
+const port = config.EXPRESS.port;
 
 
 var fs = require("fs");
