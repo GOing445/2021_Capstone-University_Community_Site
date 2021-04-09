@@ -31,8 +31,6 @@
 	</v-container>
 </template>
 
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-
 <script>
 import SocialButton from '@/components/login/SocialButton';
 
@@ -61,11 +59,6 @@ export default {
 				},
 			],
 		};
-	},
-
-	created() {
-		Kakao.init('f3a894dfce76e4481520f14e063c4a5e');
-		console.log(Kakao.isInitialized());
 	},
 };
 </script>
