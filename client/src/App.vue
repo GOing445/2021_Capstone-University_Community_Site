@@ -4,18 +4,35 @@
     <transition name="page" mode="out-in">
       <router-view id="app-body" />
     </transition>
+    <snack-bar />
+    <overlay-loading />
   </v-app>
 </template>
 
 <script>
 import AppHeader from "@/components/common/AppHeader";
+import SnackBar from "@/components/common/SnackBar.vue";
+import OverlayLoading from "@/components/common/OverlayLoading.vue";
 
 export default {
   components: {
     AppHeader,
+    SnackBar,
+    OverlayLoading,
   },
-  created() {
-    this.$router.replace("/");
+  async created() {
+    try {
+      await this.$store.dispatch("LOGIN_WITH_GOOGLE");
+      await this.$router.replace("/");
+      // this.$store.commit(
+      //   "openSnackbar",
+      //   `안녕하세요 ${this.$store.state.username}님`
+      // );
+    } catch (error) {
+      console.log(error);
+    }
+    // 여기는 서버 에러 페이지
+    // this.$router.replace("/");
   },
 };
 </script>
