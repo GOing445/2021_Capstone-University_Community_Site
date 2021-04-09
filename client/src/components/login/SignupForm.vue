@@ -9,9 +9,9 @@
           height="100"
         />
         <v-card outlined max-width="400" height="330">
-          <h1 class="grey--text text--darken-3 mt-4">로그인</h1>
+          <h1 class="grey--text text--darken-3 mt-4">회원가입</h1>
           <p class="grey--text text--darken-1 mb-6">
-            기존에 사용하시는 계정으로 간단하게 로그인하세요.
+            기존에 사용하시는 계정으로 간단하게 회원가입 하세요.
           </p>
           <social-button
             v-for="button in socialButtons"
@@ -22,8 +22,7 @@
             :img="button.img"
           />
           <div>
-            <router-link to="/signup">회원가입</router-link> |
-            <router-link to="/contactus">문의하기</router-link>
+            <router-link to="/login">이미 계정이 있습니다</router-link>
           </div>
         </v-card>
       </v-col>
@@ -40,19 +39,19 @@ export default {
     return {
       socialButtons: [
         {
-          text: "네이버 아이디로 로그인",
+          text: "네이버 아이디로 회원가입",
           backgroundColor: "#1ec800",
           textColor: "white--text",
           img: "naver",
         },
         {
-          text: "카카오 아이디로 로그인",
+          text: "카카오 아이디로 회원가입",
           backgroundColor: "#fee500",
           textColor: "brown--text text--darken-4",
           img: "kakao",
         },
         {
-          text: "구글 아이디로 로그인",
+          text: "구글 아이디로 회원가입",
           backgroundColor: "#dc4335",
           textColor: "white--text",
           img: "google",
