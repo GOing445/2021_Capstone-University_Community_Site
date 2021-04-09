@@ -17,7 +17,8 @@ app.listen(port, () => {
 app.use(session({
   secret: config.EXPRESS.seesion_secret,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie:{maxAge: 7*24*60*60*1000},//7일
 }));
 app.use(passport.initialize()); // passport 구동
 app.use(passport.session()); // 세션 연결
