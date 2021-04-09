@@ -1,7 +1,5 @@
 <template>
-	<div>
-		친구 시간표 페이지
-	</div>
+  <div>친구 시간표 페이지</div>
 </template>
 
 <script>

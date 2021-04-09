@@ -1,12 +1,12 @@
 <template>
-	<friends-list />
+  <friends-list />
 </template>
 
 <script>
-import FriendsList from '@/components/friends/FriendsList';
+import FriendsList from "@/components/friends/FriendsList";
 
 export default {
-	components: { FriendsList },
+  components: { FriendsList },
 };
 </script>
 

@@ -1,7 +1,5 @@
 <template>
-	<div>
-		문의하기 페이지
-	</div>
+  <div>문의하기 페이지</div>
 </template>
 
 <script>
