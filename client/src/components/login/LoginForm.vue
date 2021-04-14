@@ -20,6 +20,7 @@
             :textColor="button.textColor"
             :text="button.text"
             :img="button.img"
+            :loginURL="button.loginURL"
           />
           <div>
             <router-link to="/signup">회원가입</router-link> |
@@ -33,6 +34,7 @@
 
 <script>
 import SocialButton from "@/components/login/SocialButton";
+import axios from "axios";
 
 export default {
   components: { SocialButton },
@@ -44,21 +46,34 @@ export default {
           backgroundColor: "#1ec800",
           textColor: "white--text",
           img: "naver",
+          loginURL: "http://nisuwainc.cafe24app.com/auth/google",
         },
         {
           text: "카카오 아이디로 로그인",
           backgroundColor: "#fee500",
           textColor: "brown--text text--darken-4",
           img: "kakao",
+          loginURL: "http://nisuwainc.cafe24app.com/auth/google",
         },
         {
           text: "구글 아이디로 로그인",
           backgroundColor: "#dc4335",
           textColor: "white--text",
           img: "google",
+          loginURL: "http://nisuwainc.cafe24app.com/auth/google",
         },
       ],
     };
+  },
+  async created() {
+    try {
+      const { data } = await axios.get(
+        "http://nisuwainc.cafe24app.com/api/test1"
+      );
+      console.log(data.schedule);
+    } catch (err) {
+      console.log(err);
+    }
   },
 };
 </script>

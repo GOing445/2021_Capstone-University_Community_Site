@@ -1,5 +1,5 @@
 <template>
-  <v-btn large width="300" :color="backgroundColor" class="mb-5">
+  <v-btn large width="300" :color="backgroundColor" class="mb-5" @click="login">
     <v-row>
       <v-col cols="1">
         <v-avatar size="20">
@@ -31,6 +31,22 @@ export default {
     img: {
       type: String,
       required: true,
+    },
+    loginURL: {
+      type: String,
+      required: true,
+    },
+  },
+
+  methods: {
+    login() {
+      var port = chrome.extension.connect({
+        name: "Sample Communication",
+      });
+      port.postMessage("Hi BackGround");
+      port.onMessage.addListener(function (msg) {
+        console.log("message recieved" + msg);
+      });
     },
   },
 };

@@ -19,7 +19,7 @@
 </template>
 <script>
 import ClassBox from "@/components/timetable/ClassBox";
-
+import { fetchMyTimeTable } from "@/api/timetable";
 import { formatDate } from "@/utils/date";
 
 export default {
@@ -28,70 +28,12 @@ export default {
   data: () => ({
     color: ["rgba(63, 81, 181, 0.7)"],
     events: [],
-    timetable: [
-      {
-        day: 1,
-        className: "빅 데이터 프로그래밍",
-        classroom: "프젝3",
-        start: "10:00",
-        end: "12:50",
-      },
-      {
-        day: 1,
-        className: "IoT개론 및 프로그래밍",
-        classroom: "프젝1",
-        start: "14:00",
-        end: "16:50",
-      },
-      {
-        day: 2,
-        className: "UML",
-        classroom: "프젝3",
-        start: "10:00",
-        end: "12:50",
-      },
-      {
-        day: 2,
-        className: "캡스톤디자인",
-        classroom: "프로3",
-        start: "14:00",
-        end: "16:50",
-      },
-      {
-        day: 3,
-        className: "AI개론",
-        classroom: "프젝3",
-        start: "14:00",
-        end: "16:50",
-      },
-      {
-        day: 4,
-        className: "Linux 운영체제",
-        classroom: "프젝2",
-        start: "10:00",
-        end: "12:50",
-      },
-      {
-        day: 4,
-        className: "ERP",
-        classroom: "프로2",
-        start: "14:00",
-        end: "16:50",
-      },
-      {
-        day: 5,
-        className: "근로",
-        classroom: "원스톱지원실",
-        start: "09:00",
-        end: "18:00",
-      },
-    ],
   }),
 
   computed: {
     startDay() {
       const today = new Date();
-      if (today.getDay() === 0 || today.getDate === 6) {
+      if (today.getDay() === 0 || today.getDay() === 6) {
         today.setDate(today.getDate() - 2);
         return formatDate(today);
       }
@@ -103,7 +45,7 @@ export default {
   },
 
   created() {
-    this.setEvents(this.timetable);
+    this.fetchTimetable();
   },
 
   methods: {
@@ -137,6 +79,16 @@ export default {
         addClass.start = `${formatDate(newDay)} ${el.start}`;
         addClass.end = `${formatDate(newDay)} ${el.end}`;
         this.events.push(addClass);
+      }
+    },
+    async fetchTimetable() {
+      try {
+        this.$store.state.loading = true;
+        const { data } = await fetchMyTimeTable();
+        this.$store.state.loading = false;
+        this.setEvents(data.schedule);
+      } catch (error) {
+        console.log(error);
       }
     },
   },

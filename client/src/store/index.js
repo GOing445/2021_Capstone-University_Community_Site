@@ -1,11 +1,74 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { loginWithGoogle } from "@/api/login";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  state: {
+    id: "",
+    username: "",
+    email: "",
+    avatar: "",
+    snackbar: { state: false, message: "" },
+    loading: false,
+  },
+  getters: {
+    isLogin(state) {
+      return state.id !== "";
+    },
+  },
+  mutations: {
+    openSnackbar(state, msg) {
+      state.snackbar.message = msg;
+      state.snackbar.state = true;
+    },
+    openLoadingSpinner(state) {
+      state.loading = true;
+    },
+    closeLoadingSpinner(state) {
+      state.loading = false;
+    },
+    setID(state, id) {
+      state.id = id;
+    },
+    clearID(state) {
+      state.id = "";
+    },
+    setUsername(state, username) {
+      state.username = username;
+    },
+    clearUsername(state) {
+      state.username = "";
+    },
+    setEmail(state, email) {
+      state.email = email;
+    },
+    clearEmail(state) {
+      state.email = "";
+    },
+    setAvatar(state, avatar) {
+      state.avatar = avatar;
+    },
+    clearAvatar(state) {
+      state.avatar = "";
+    },
+  },
+  actions: {
+    async LOGIN_WITH_GOOGLE({ commit }) {
+      try {
+        const { data } = await loginWithGoogle();
+        if (data.passport !== undefined) {
+          const userData = data.passport.user;
+          commit("setID", userData.id);
+          commit("setUsername", userData.displayName);
+          commit("setEmail", userData.emails[0].value);
+          commit("setAvatar", userData.photos[0].value);
+        }
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
 });
