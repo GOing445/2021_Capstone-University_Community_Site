@@ -33,7 +33,7 @@ export default {
   computed: {
     startDay() {
       const today = new Date();
-      if (today.getDay() === 0 || today.getDate === 6) {
+      if (today.getDay() === 0 || today.getDay() === 6) {
         today.setDate(today.getDate() - 2);
         return formatDate(today);
       }
