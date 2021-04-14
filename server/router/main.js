@@ -3,7 +3,7 @@ var fs = require('fs');
 module.exports = function(app, fs)
 {   
     app.get('/',function(req,res){
-        res.send('Hello World!!!!')
+      res.render('index.html');
     });
     // app.get('/login/:username',function(req, res) {
     //     var ip = req.headers['x-forwarded-for'] ||  req.connection.remoteAddress;
