@@ -40,6 +40,8 @@ passport.use(new GoogleStrategy(config.GOOGLE,
   function(accessToken, refreshToken, profile, cb) {
     console.log(refreshToken)
     profile.accessToken = accessToken;
+    //db에없으면 회원가입
+    if(!global.DB.users.get(profile.id))db.addUser({id:profile.id,name:profile.displayName});
     return cb(null, profile);
   }
 ));
