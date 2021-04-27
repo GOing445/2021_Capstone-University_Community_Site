@@ -7,6 +7,8 @@ var session = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const port = config.EXPRESS.port;
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 
 var fs = require("fs");
