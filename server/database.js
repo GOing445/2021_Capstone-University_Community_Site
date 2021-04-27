@@ -92,6 +92,42 @@ getSchedulesFromUserID = function(user_id,callback){
         });
     });
 }
+module.exports.getScheduleByID = async function(schedule_ID,callback){
+    return new Promise(function(resolve,reject){
+        //쿼리
+        let qqq = `SELECT * FROM Schedule WHERE id = ${schedule_ID}`;
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(err)console.log(err);
+            if(callback)callback(err, rows[0]); // 콜백함수
+            resolve(rows[0]);
+        });
+    });
+}
+module.exports.deleteScheduleByID = async function(schedule_ID,callback){
+    return new Promise(function(resolve,reject){
+        //쿼리
+        let qqq = `DELETE FROM Schedule WHERE id=${schedule_ID};`;
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(err)console.log(err);
+            if(callback)callback(err, rows); // 콜백함수
+            resolve(rows);
+        });
+    });
+}
+module.exports.addSchedule = async function(user_id,schedule,callback){
+    return new Promise(function(resolve,reject){
+        //쿼리
+        let qqq = `INSERT INTO \`${db_config.database}\`.\`Schedule\` (\`owner\`, \`day\`, \`className\`, \`classroom\`, \`start\`, \`end\`) VALUES ('${user_id}', '${schedule.day}', '${schedule.className}', '${schedule.classroom}', '${schedule.start}', '${schedule.end}');`;
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(err)console.log(err); // 로그
+            global.DB.users.get(user_id).schedules.push(schedule);
+            console.log(global.DB.users.get(user_id));
+            if(callback)callback(err, rows); // 콜백함수
+            resolve(rows);
+            // module.exports.fatchUsers(); // 데이터베이스에 변동이 생겼으니 동기화해주기
+        });
+    });
+}
 module.exports.fatchUsers = function() {
     connection.query(`SELECT * FROM User`,function(err, rows, fields) {
         for(row of rows){ // 유저한명씩 객체만들고 글로벌객체로 올려두기
@@ -103,16 +139,17 @@ module.exports.fatchUsers = function() {
         console.log(global.DB.users);
     });
 }
-//addUser 예제코드
-//다른 프로젝트에서 그냥 가져온거라서 내용이 좀 이상할꺼임
+//addUser 새로운 유저 생성
 module.exports.addUser = function(user,callback){
-    // let date = new Date();
-    //쿼리는 이렇게 작성해주면 됨
-    let qqq = `INSERT INTO \`pateno0127\`.\`User\` (\`User_ID\`, \`isAdmin\`, \`UserName\`, \`Locale\`, \`Discriminator\`, \`eMail\`, \`AccessToken\`, \`RegistDate\`) VALUES ('${user.id}', '0', '${user.username}', '${user.locale}', '${user.discriminator}', '${user.email}', '${user.accessToken}', CURRENT_TIMESTAMP)`;
-    // Logger(qqq); // 로그기능 아직 없으니까 무시
-    connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
-        if(!err)Logger.json(err); // 로그기능 아직 없으니까 무시2
-        callback(err, rows); // 콜백함수 형태로 구현되있음 async await 형태로 구현하면 더 좋을것같음
-        module.exports.fatchUsers(); // 데이터베이스에 변동이 생겼으니 동기화해주기
+    return new Promise(function(resolve,reject){
+        //쿼리
+        let qqq = `INSERT INTO \`${db_config.database}\`.\`User\` (\`id\`, \`name\`, \`invCode\`, \`registDate\`) VALUES ('${user.id}', '${user.name}', '${"what"}', CURRENT_TIMESTAMP);`;
+        // Logger(qqq); // 로그기능 아직 없으니까 무시
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(!err)console.log(err); // 로그기능 아직 없으니까 무시2
+            if(callback)callback(err, rows); // 콜백함수 형태로 구현되있음 async await 형태로 구현하면 더 좋을것같음
+            else resolve(rows)
+            module.exports.fatchUsers(); // 데이터베이스에 변동이 생겼으니 동기화해주기
+        });
     });
 }
