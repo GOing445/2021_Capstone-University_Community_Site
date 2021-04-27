@@ -54,5 +54,5 @@ app.get('/auth/google/callback',
   	successRedirect: '/'
 }));
 
-var router = require('./router/main')(app, fs);
+var router = require('./router/main')(app, fs, db);
 
