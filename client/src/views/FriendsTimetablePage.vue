@@ -1,8 +1,17 @@
 <template>
   <div>
     <timetable />
-    <v-btn color="error" dark fixed bottom right fab small>
-      <v-icon @click="$router.go(-1)">mdi-arrow-left</v-icon>
+    <v-btn
+      color="error"
+      dark
+      fixed
+      bottom
+      right
+      fab
+      small
+      @click="$router.go(-1)"
+    >
+      <v-icon>mdi-arrow-left</v-icon>
     </v-btn>
   </div>
 </template>
