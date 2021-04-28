@@ -37,6 +37,11 @@ const routes = [
     meta: { auth: true },
   },
   {
+    path: "/friend-timetable",
+    component: () => import("@/views/FriendsTimetablePage.vue"),
+    meta: { auth: true },
+  },
+  {
     path: "/community",
     component: () => import("@/views/CommunityPage.vue"),
     meta: { auth: true },

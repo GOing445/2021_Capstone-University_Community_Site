@@ -1,9 +1,17 @@
 <template>
-  <div>친구 시간표 페이지</div>
+  <div>
+    <timetable />
+    <v-btn color="error" dark fixed bottom right fab small>
+      <v-icon @click="$router.go(-1)">mdi-arrow-left</v-icon>
+    </v-btn>
+  </div>
 </template>
 
 <script>
-export default {};
+import Timetable from "@/components/friends/Timetable";
+export default {
+  components: { Timetable },
+};
 </script>
 
 <style></style>
