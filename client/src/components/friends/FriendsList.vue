@@ -12,9 +12,13 @@
       absolute
       offset-y
     >
-      <v-list>
+      <v-list dense>
         <v-list-item v-for="(item, index) in items" :key="index">
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <v-list-item-title>
+            <v-btn color="error" small text>
+              {{ item.title }}
+            </v-btn>
+          </v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -52,12 +56,7 @@ export default {
     showMenu: false,
     x: 0,
     y: 0,
-    items: [
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me 2" },
-    ],
+    items: [{ title: "친구삭제" }, { title: "친구삭제" }],
   }),
 
   methods: {

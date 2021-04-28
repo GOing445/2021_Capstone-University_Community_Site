@@ -10,7 +10,7 @@
       <v-list-item-title v-text="user.title"></v-list-item-title>
       <v-list-item-subtitle v-text="user.status"></v-list-item-subtitle>
     </v-list-item-content>
-    <v-list-item-icon @click="showMenu">
+    <v-list-item-icon class="icon" @click="showMenu">
       <v-icon height="40">mdi-menu</v-icon>
     </v-list-item-icon>
   </v-list-item>
@@ -34,7 +34,8 @@ export default {
 </script>
 
 <style scoped>
-.content:hover {
+.content:hover,
+.icon:hover {
   cursor: pointer;
 }
 </style>
