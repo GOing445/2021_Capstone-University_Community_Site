@@ -143,13 +143,27 @@ module.exports.fatchUsers = function() {
 module.exports.addUser = function(user,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `INSERT INTO \`${db_config.database}\`.\`User\` (\`id\`, \`name\`, \`invCode\`, \`registDate\`) VALUES ('${user.id}', '${user.name}', '${"what"}', CURRENT_TIMESTAMP);`;
+        let qqq = `INSERT INTO \`${db_config.database}\`.\`User\` (\`id\`, \`name\`, \`invCode\`, \`registDate\`) VALUES ('${user.id}', '${user.name}', '${Math.floor(Math.random() * (9999 - 0))}', CURRENT_TIMESTAMP);`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
+        
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
-            if(!err)console.log(err); // 로그기능 아직 없으니까 무시2
+            if(err)console.log(err); // 로그기능 아직 없으니까 무시2
             if(callback)callback(err, rows); // 콜백함수 형태로 구현되있음 async await 형태로 구현하면 더 좋을것같음
             else resolve(rows)
             module.exports.fatchUsers(); // 데이터베이스에 변동이 생겼으니 동기화해주기
+        });
+    });
+}
+module.exports.addFriend = function(from,to,callback){
+    return new Promise(function(resolve,reject){
+        //쿼리
+        let qqq = `INSERT INTO \`${db_config.database}\`.\`Friend\` (\`from\`, \`to\`, \`time\`, \`isAcceped\`) VALUES ('${from.id}', '${to.id}', CURRENT_TIMESTAMP, 'N');`;
+        // Logger(qqq); // 로그기능 아직 없으니까 무시
+        
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(err)console.log(err); // 로그기능 아직 없으니까 무시2
+            if(callback)callback(err, rows); // 콜백함수 형태로 구현되있음 async await 형태로 구현하면 더 좋을것같음
+            else resolve(rows);
         });
     });
 }
