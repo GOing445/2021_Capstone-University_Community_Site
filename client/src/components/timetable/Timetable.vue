@@ -10,24 +10,44 @@
       :interval-count="15"
       :events="events"
       :event-color="eventColor"
+      @click:event="showEvent"
     >
       <template v-slot:event="{ event }">
         <class-box :eventName="event.name" :classroom="event.classroom" />
       </template>
     </v-calendar>
+    <v-menu
+      v-model="selectedOpen"
+      :close-on-content-click="false"
+      :activator="selectedElement"
+      offset-x
+    >
+      <selected-event
+        :selectedId="'123'"
+        :selectedName="selectedEvent.name"
+        :selectedStart="selectedEvent.start"
+        :selectedEnd="selectedEvent.end"
+        :selectedClassroom="selectedEvent.classroom"
+        :selectedMemo="'123'"
+      />
+    </v-menu>
   </v-sheet>
 </template>
 <script>
 import ClassBox from "@/components/timetable/ClassBox";
+import SelectedEvent from "@/components/timetable/SelectedEvent";
 import { fetchMyTimeTable } from "@/api/timetable";
 import { formatDate } from "@/utils/date";
 
 export default {
-  components: { ClassBox },
+  components: { ClassBox, SelectedEvent },
 
   data: () => ({
     color: ["rgba(63, 81, 181, 0.7)"],
     events: [],
+    selectedEvent: {},
+    selectedElement: null,
+    selectedOpen: false,
   }),
 
   computed: {
@@ -39,6 +59,7 @@ export default {
       }
       return formatDate(today);
     },
+
     eventColor() {
       return this.color[Math.floor(Math.random() * 1)];
     },
@@ -67,6 +88,7 @@ export default {
           return "토";
       }
     },
+
     setEvents(timetable) {
       const sunday = new Date();
       if (sunday.getDay() === 0) sunday.setDate(sunday.getDate() - 7);
@@ -81,6 +103,7 @@ export default {
         this.events.push(addClass);
       }
     },
+
     async fetchTimetable() {
       try {
         this.$store.state.loading = true;
@@ -90,6 +113,25 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+
+    showEvent({ nativeEvent, event }) {
+      const open = () => {
+        this.selectedEvent = event;
+        this.selectedElement = nativeEvent.target;
+        setTimeout(() => {
+          this.selectedOpen = true;
+        }, 10);
+      };
+
+      if (this.selectedOpen) {
+        this.selectedOpen = false;
+        setTimeout(open, 10);
+      } else {
+        open();
+      }
+      console.log(this.selectedEvent);
+      nativeEvent.stopPropagation();
     },
   },
 };

@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <tr v-for="item in desserts" :key="item.name">
-            <td>{{ item.name }}</td>
+            <td v-html="item.name"></td>
             <td>{{ item.mon }}</td>
             <td>{{ item.tue }}</td>
             <td>{{ item.wed }}</td>
@@ -112,4 +112,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped></style>
