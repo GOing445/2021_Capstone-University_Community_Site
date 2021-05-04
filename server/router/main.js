@@ -28,6 +28,7 @@ module.exports = function(app, fs, db)
                classroom: '프젝3',
                start: '10:00',
                end: '12:50',
+               memo: 'memo context for testing',
             },
             {
                day: 1,
@@ -35,6 +36,7 @@ module.exports = function(app, fs, db)
                classroom: '프젝1',
                start: '14:00',
                end: '16:50',
+               memo: 'memo context for testing',
             },
             {
                day: 2,
@@ -42,6 +44,7 @@ module.exports = function(app, fs, db)
                classroom: '프젝3',
                start: '10:00',
                end: '12:50',
+               memo: 'memo context for testing',
             },
             {
                day: 2,
@@ -49,6 +52,7 @@ module.exports = function(app, fs, db)
                classroom: '프로3',
                start: '14:00',
                end: '16:50',
+               memo: 'memo context for testing',
             },
             {
                day: 3,
@@ -56,6 +60,7 @@ module.exports = function(app, fs, db)
                classroom: '프젝3',
                start: '14:00',
                end: '16:50',
+               memo: 'memo context for testing',
             },
             {
                day: 4,
@@ -63,6 +68,7 @@ module.exports = function(app, fs, db)
                classroom: '프젝2',
                start: '10:00',
                end: '12:50',
+               memo: 'memo context for testing',
             },
             {
                day: 4,
@@ -70,6 +76,7 @@ module.exports = function(app, fs, db)
                classroom: '프로2',
                start: '14:00',
                end: '16:50',
+               memo: 'memo context for testing',
             },
             {
                day: 5,
@@ -77,6 +84,7 @@ module.exports = function(app, fs, db)
                classroom: '원스톱지원실',
                start: '09:00',
                end: '18:00',
+               memo: 'memo context for testing',
             },
          ]};
          res.send(data)
