@@ -59,9 +59,10 @@ class User{ // 사용자 객체
         this.invCode = data.invCode ;
         this.registDate = data.registDate ;
         this.schedules = await getSchedulesFromUserID(data.id);
+        // console.log(this);
     }
 }
-class schedule{ // 스케줄 객체
+class schedule{ // 스케줄 객체 // 안쓰임
     constructor(data){
         this.day = null;// 요일 0(일)~6(토)
         this.className = null;// 강의 이름
@@ -85,7 +86,7 @@ getSchedulesFromUserID = function(user_id,callback){
         let qqq = `SELECT * FROM Schedule WHERE owner = "${user_id}"`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
-            if(!err)console.log(err); // 로그기능 아직 없으니까 무시2
+            if(err)console.log(err); // 로그기능 아직 없으니까 무시2
             if(callback)callback(err, rows); // 콜백함수 형태로 구현되있음 async await 형태로 구현하면 더 좋을것같음
             else resolve(rows)
             // module.exports.fatchUsers(); // 데이터베이스에 변동이 생겼으니 동기화해주기
@@ -157,7 +158,7 @@ module.exports.addUser = function(user,callback){
 module.exports.addFriend = function(from,to,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `INSERT INTO \`${db_config.database}\`.\`Friend\` (\`from\`, \`to\`, \`time\`, \`isAcceped\`) VALUES ('${from.id}', '${to.id}', CURRENT_TIMESTAMP, 'N');`;
+        let qqq = `INSERT INTO \`${db_config.database}\`.\`Friend\` (\`from\`, \`to\`, \`time\`, \`isAcceped\`) VALUES ('${from}', '${to}', CURRENT_TIMESTAMP, 'N');`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
         
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
@@ -167,3 +168,66 @@ module.exports.addFriend = function(from,to,callback){
         });
     });
 }
+module.exports.acceptFriend = function(from,to,callback){
+    return new Promise(function(resolve,reject){
+        //쿼리
+        let qqq = `UPDATE \`${db_config.database}\`.\`Friend\` SET \`isAcceped\`='Y' WHERE  \`from\`='${from}' AND \`to\`='${to}';`;
+        // Logger(qqq); // 로그기능 아직 없으니까 무시
+        
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(err)console.log(err); // 로그기능 아직 없으니까 무시2
+            if(callback)callback(err, rows); // 콜백함수 형태로 구현되있음 async await 형태로 구현하면 더 좋을것같음
+            else resolve(rows);
+        });
+    });
+}
+module.exports.deleteFriend = function(from,to,callback){
+    return new Promise(function(resolve,reject){
+        //쿼리
+        let qqq = `DELETE FROM \`${db_config.database}\`.\`Friend\` WHERE  \`from\`='${from}' AND \`to\`='${to}';`;
+        // Logger(qqq); // 로그기능 아직 없으니까 무시
+        
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(err)console.log(err); // 로그기능 아직 없으니까 무시2
+            if(callback)callback(err, rows); // 콜백함수 형태로 구현되있음 async await 형태로 구현하면 더 좋을것같음
+            else resolve(rows);
+        });
+    });
+}
+module.exports.checkFriend = async function(from,to,callback){
+    return new Promise(function(resolve,reject){
+        //쿼리
+        let qqq = `SELECT \`from\`, \`to\`, \`time\`, \`isAcceped\` FROM \`pateno0127\`.\`Friend\` WHERE  \`from\`='${from}' AND \`to\`='${to}' OR \`from\`='${to}' AND \`to\`='${from}';`;
+        // Logger(qqq); // 로그기능 아직 없으니까 무시
+        let output = {
+            isFriend : false, //친구인가?
+            isEmpty : false, //아무관계없는가?
+            isPending : false //친구수락 대기중인가?
+        }
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(err)console.log(err); // 에러검출
+            if(rows.length==0){//서로 친구가 아니면
+                output.isEmpty = true;
+                output.isFriend = false;
+            }
+            else{ //일방적인 친구관계
+                if(rows[0].isAcceped){ //친구요청 상태
+                    output.isFriend = true;
+                }
+                else{ //친구요청 대기중인 상태
+                    output.isPending = true;
+                }
+            }
+
+            if(rows.length==2){//서로 친구이면(비정상 상태)
+                //TODO 둘중하나를 삭제하는 코드
+                console.log("error:) Duplicated relationships")
+            }
+            console.log(output);
+            if(callback)callback(err, output); // 콜백함수 형태로 구현되있음 async await 형태로 구현하면 더 좋을것같음
+            else resolve(output);
+        });
+    }); 
+}
+
+// module.exports.checkFriend(1234,123)
