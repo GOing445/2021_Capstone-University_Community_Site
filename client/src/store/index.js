@@ -10,6 +10,7 @@ export default new Vuex.Store({
     username: "",
     email: "",
     avatar: "",
+    stateMessage: "상태메세지",
     snackbar: { state: false, message: "" },
     loading: false,
   },

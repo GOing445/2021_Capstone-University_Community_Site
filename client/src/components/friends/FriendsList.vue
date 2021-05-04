@@ -2,9 +2,26 @@
   <v-list subheader>
     <v-subheader>친구 시간표</v-subheader>
     <template v-for="(user, idx) in users">
-      <list-item :user="user" :key="user.title" />
+      <list-item :user="user" :key="user.title" @click-menu="showMenuList" />
       <v-divider v-if="idx < users.length" :key="idx"></v-divider>
     </template>
+    <v-menu
+      v-model="showMenu"
+      :position-x="x"
+      :position-y="y"
+      absolute
+      offset-y
+    >
+      <v-list dense>
+        <v-list-item v-for="(item, index) in items" :key="index">
+          <v-list-item-title>
+            <v-btn color="error" small text>
+              {{ item.title }}
+            </v-btn>
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-list>
 </template>
 
@@ -39,20 +56,14 @@ export default {
     showMenu: false,
     x: 0,
     y: 0,
-    items: [
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me" },
-      { title: "Click Me 2" },
-    ],
+    items: [{ title: "친구삭제" }, { title: "친구삭제" }],
   }),
 
   methods: {
-    clickRightUser(e) {
-      e.preventDefault();
+    showMenuList(pos) {
       this.showMenu = false;
-      this.x = e.clientX;
-      this.y = e.clientY;
+      this.x = pos.x;
+      this.y = pos.y;
       this.$nextTick(() => {
         this.showMenu = true;
       });

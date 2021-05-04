@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-subheader>수업 추가</v-subheader>
+    <v-subheader>시간표 추가</v-subheader>
     <v-card-text>
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-container>
@@ -78,7 +78,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="error" dark @click="$router.go(-1)"> 취소 </v-btn>
-      <v-btn color="primary" dark @click="addClass"> 등록 </v-btn>
+      <v-btn color="primary" dark @click="sendMessage"> 수정 </v-btn>
     </v-card-actions>
   </div>
 </template>
@@ -87,7 +87,7 @@
 export default {
   data() {
     return {
-      valid: false,
+      valid: true,
       title: "",
       classroom: "",
       weekday: ["월", "화", "수", "목", "금"],
@@ -120,24 +120,6 @@ export default {
       ],
       memoRules: [(v) => v.length <= 100 || "메모는 100자 이내여야 합니다."],
     };
-  },
-
-  methods: {
-    addClass() {
-      if (this.$refs.form.validate()) {
-        const data = {
-          title: this.title,
-          classroom: this.classroom,
-          weekday: this.weekday,
-          start: this.startTime,
-          end: this.endTime,
-          memo: this.memo,
-        };
-        console.log(data);
-        this.$router.push("/main");
-        this.$store.commit("openSnackbar", "새로운 수업이 등록되었습니다!");
-      }
-    },
   },
 };
 </script>

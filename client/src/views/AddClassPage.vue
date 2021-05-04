@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AddClass from "../components/timetable/AddClass";
+import AddClass from "@/components/timetable/AddClass";
 
 export default {
   components: { AddClass },

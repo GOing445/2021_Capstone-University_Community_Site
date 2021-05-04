@@ -1,5 +1,7 @@
 <template>
-  <mypage-form />
+  <div>
+    <mypage-form />
+  </div>
 </template>
 
 <script>

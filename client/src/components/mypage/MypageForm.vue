@@ -17,6 +17,9 @@
           <v-row dense>
             {{ $store.state.email }}
           </v-row>
+          <v-row dense>
+            {{ $store.state.stateMessage }}
+          </v-row>
         </v-col>
         <v-col cols="2">
           <v-btn
@@ -34,10 +37,10 @@
           <v-card color="#385F73" dark>
             <v-card-title class="headline"> Unlimited music now </v-card-title>
 
-            <v-card-subtitle
-              >Listen to your favorite artists and albums whenever and wherever,
-              online and offline.</v-card-subtitle
-            >
+            <v-card-subtitle>
+              Listen to your favorite artists and albums whenever and wherever,
+              online and offline.
+            </v-card-subtitle>
 
             <v-card-actions>
               <v-btn text> Listen Now </v-btn>
@@ -46,6 +49,18 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-btn
+      color="error"
+      dark
+      fixed
+      bottom
+      right
+      fab
+      small
+      @click="saveUserData"
+    >
+      <v-icon>mdi-content-save</v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -61,6 +76,9 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    saveUserData() {
+      this.$store.commit("openSnackbar", "변경사항이 적용되었습니다!");
     },
   },
 };

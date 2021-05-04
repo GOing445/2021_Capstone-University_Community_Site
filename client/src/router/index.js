@@ -20,6 +20,11 @@ const routes = [
     meta: { auth: true },
   },
   {
+    path: "/edit_class",
+    component: () => import("@/views/EditClassPage.vue"),
+    meta: { auth: true },
+  },
+  {
     path: "/login",
     component: () => import("@/views/LoginPage.vue"),
   },
@@ -34,6 +39,11 @@ const routes = [
   {
     path: "/friends",
     component: () => import("@/views/FriendsPage.vue"),
+    meta: { auth: true },
+  },
+  {
+    path: "/friend-timetable",
+    component: () => import("@/views/FriendsTimetablePage.vue"),
     meta: { auth: true },
   },
   {
