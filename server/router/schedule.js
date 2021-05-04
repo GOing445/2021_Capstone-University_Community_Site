@@ -23,7 +23,7 @@ module.exports = function(app, fs, db){
             }
             else{ 
                 await db.deleteScheduleByID(req.params.schedule_ID);
-                res.status(401).json({response:{status:202,desc:"request success",insertId:okPacket.insertId}});
+                res.status(202).json({response:{status:202,desc:"request success"}});
             }
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
