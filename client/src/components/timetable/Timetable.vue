@@ -29,18 +29,27 @@
         :selectedEnd="selectedEvent.end"
         :selectedClassroom="selectedEvent.classroom"
         :selectedMemo="'123'"
+        @delete-class="showDialog = true"
       />
     </v-menu>
+    <Dialog
+      :showDialog="showDialog"
+      :selectedId="selectedEvent.id"
+      :selectedName="selectedEvent.name"
+      @close-dialog="showDialog = false"
+      @reload="reload"
+    />
   </v-sheet>
 </template>
 <script>
 import ClassBox from "@/components/timetable/ClassBox";
+import Dialog from "@/components/timetable/Dialog";
 import SelectedEvent from "@/components/timetable/SelectedEvent";
 import { fetchMyTimeTable } from "@/api/timetable";
 import { formatDate } from "@/utils/date";
 
 export default {
-  components: { ClassBox, SelectedEvent },
+  components: { ClassBox, SelectedEvent, Dialog },
 
   data: () => ({
     color: ["rgba(63, 81, 181, 0.7)"],
@@ -48,6 +57,7 @@ export default {
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
+    showDialog: false,
   }),
 
   computed: {
@@ -136,6 +146,15 @@ export default {
         open();
       }
       nativeEvent.stopPropagation();
+    },
+
+    reload() {
+      this.events = [];
+      this.selectedEvent = {};
+      this.selectedElement = null;
+      this.selectedOpen = false;
+      this.showDialog = false;
+      this.fetchTimetable();
     },
   },
 };

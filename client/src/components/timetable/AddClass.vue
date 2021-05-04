@@ -111,7 +111,7 @@ export default {
         { text: "22:00" },
       ],
       startTime: "09:00",
-      endTime: "09:00",
+      endTime: "10:00",
       memo: "",
       titleRules: [
         (v) => !!v || "과목명을 입력해주세요",

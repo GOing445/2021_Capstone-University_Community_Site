@@ -11,8 +11,8 @@
       <v-icon tag="span">👪</v-icon>
     </v-tab>
 
-    <v-tab @click="$router.push('/community')">
-      게시판
+    <v-tab @click="$router.push('/campus')">
+      캠퍼스
       <v-icon tag="span">🏫</v-icon>
     </v-tab>
 

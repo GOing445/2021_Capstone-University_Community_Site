@@ -47,8 +47,26 @@ const routes = [
     meta: { auth: true },
   },
   {
-    path: "/community",
-    component: () => import("@/views/CommunityPage.vue"),
+    path: "/campus",
+    component: () => import("@/views/CampusPage.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("@/components/campus/DietaryTable.vue"),
+      },
+      {
+        path: "0",
+        component: () => import("@/components/campus/DietaryTable.vue"),
+      },
+      {
+        path: "1",
+        component: () => import("@/components/campus/NoticeList.vue"),
+      },
+      {
+        path: "2",
+        component: () => import("@/components/campus/DietaryTable.vue"),
+      },
+    ],
     meta: { auth: true },
   },
   {
