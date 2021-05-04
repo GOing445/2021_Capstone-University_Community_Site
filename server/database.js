@@ -211,5 +211,19 @@ module.exports.checkFriend = async function(from,to,callback){
         });
     }); 
 }
+module.exports.getFreiendRequests = async function(userID,callback){
+    return new Promise(function(resolve,reject){
+        //쿼리
+        let qqq = `SELECT * FROM Friend WHERE isAcceped="N" AND \`to\`="${userID}";`;
+        // Logger(qqq); // 로그기능 아직 없으니까 무시
+
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(err)console.log(err); // 에러검출
+            console.log(rows);
+            if(callback)callback(err, rows); // 콜백함수
+            else resolve(rows);
+        });
+    }); 
+}
 
 // module.exports.checkFriend(1234,123)
