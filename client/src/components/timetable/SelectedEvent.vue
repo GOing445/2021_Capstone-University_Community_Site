@@ -6,7 +6,7 @@
       <v-btn icon @click="$router.push('/edit_class')">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-btn icon>
+      <v-btn icon @click="deleteClass">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-toolbar>
@@ -22,10 +22,12 @@
 </template>
 
 <script>
+import { DeleteMyClass } from "@/api/timetable.js";
+
 export default {
   props: {
     selectedId: {
-      type: String,
+      type: Number,
     },
     selectedName: {
       type: String,
@@ -49,6 +51,23 @@ export default {
       return `${this.selectedStart.split(" ")[1]} ~ ${
         this.selectedEnd.split(" ")[1]
       }`;
+    },
+  },
+
+  methods: {
+    async deleteClass() {
+      try {
+        const res = await DeleteMyClass(this.selectedId);
+        if (res.data.response.status === 202) {
+          this.$router.replace("/main");
+          this.$store.commit(
+            "openSnackbar",
+            `${this.selectedName} 수업이 삭제되었습니다!`
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

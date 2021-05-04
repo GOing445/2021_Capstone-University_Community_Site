@@ -2,7 +2,7 @@
   <v-app>
     <app-header />
     <transition name="page" mode="out-in">
-      <router-view id="app-body" />
+      <router-view id="app-body" :key="$route.fullPath" />
     </transition>
     <snack-bar />
     <overlay-loading />

@@ -23,7 +23,7 @@
       offset-x
     >
       <selected-event
-        :selectedId="'123'"
+        :selectedId="selectedEvent.id"
         :selectedName="selectedEvent.name"
         :selectedStart="selectedEvent.start"
         :selectedEnd="selectedEvent.end"
@@ -95,7 +95,12 @@ export default {
       else sunday.setDate(sunday.getDate() - sunday.getDay());
 
       for (const el of timetable) {
-        const addClass = { name: el.className, classroom: el.classroom };
+        const addClass = {
+          id: el.id,
+          name: el.className,
+          classroom: el.classroom,
+          memo: el.memo,
+        };
         const newDay = new Date(sunday);
         newDay.setDate(newDay.getDate() + el.day);
         addClass.start = `${formatDate(newDay)} ${el.start}`;
@@ -109,7 +114,7 @@ export default {
         this.$store.state.loading = true;
         const { data } = await fetchMyTimeTable();
         this.$store.state.loading = false;
-        this.setEvents(data.schedule);
+        this.setEvents(data);
       } catch (error) {
         console.log(error);
       }
@@ -130,7 +135,6 @@ export default {
       } else {
         open();
       }
-      console.log(this.selectedEvent);
       nativeEvent.stopPropagation();
     },
   },
