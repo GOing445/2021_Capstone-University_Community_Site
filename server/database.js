@@ -62,24 +62,6 @@ class User{ // 사용자 객체
         // console.log(this);
     }
 }
-class schedule{ // 스케줄 객체 // 안쓰임
-    constructor(data){
-        this.day = null;// 요일 0(일)~6(토)
-        this.className = null;// 강의 이름
-        this.classroom = null;// 강의실
-        this.start = null;// 일정이 시작되는 시간
-        this.end = null;// 일정이 끝나는 시간
-        // if(data) this.init(data);
-    }
-    async init(data){
-        //TODO sql데이터를 파싱해서 객체에 넣어주세요 
-        this.id = data.id ;//이런식으로
-        this.name = data.name ;//이런식으로
-        this.invCode = data.invCode ;//이런식으로
-        this.registDate = data.registDate ;//이런식으로
-    }
-}
-
 getSchedulesFromUserID = function(user_id,callback){
     return new Promise(function(resolve,reject){
         //쿼리는 이렇게 작성해주면 됨
