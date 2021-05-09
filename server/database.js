@@ -41,6 +41,7 @@ module.exports.handleDisconnect = function() {
     });
 }
 
+
 module.exports.handleDisconnect();
 //TODO 클래스들은 나중에 스트럭쳐 파일들로 독립시키기
 class User{ // 사용자 객체
