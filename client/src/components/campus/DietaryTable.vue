@@ -1,30 +1,28 @@
 <template>
-  <div>
-    <v-simple-table fixed-header height="528">
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th class="text-center">X</th>
-            <th class="text-center">월</th>
-            <th class="text-center">화</th>
-            <th class="text-center">수</th>
-            <th class="text-center">목</th>
-            <th class="text-center">금</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in desserts" :key="item.name">
-            <td v-html="item.name"></td>
-            <td>{{ item.mon }}</td>
-            <td>{{ item.tue }}</td>
-            <td>{{ item.wed }}</td>
-            <td>{{ item.thu }}</td>
-            <td>{{ item.fri }}</td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
-  </div>
+  <v-simple-table fixed-header height="470">
+    <template v-slot:default>
+      <thead>
+        <tr>
+          <th class="text-center">X</th>
+          <th class="text-center">월</th>
+          <th class="text-center">화</th>
+          <th class="text-center">수</th>
+          <th class="text-center">목</th>
+          <th class="text-center">금</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in desserts" :key="item.name">
+          <td v-html="item.name"></td>
+          <td>{{ item.mon }}</td>
+          <td>{{ item.tue }}</td>
+          <td>{{ item.wed }}</td>
+          <td>{{ item.thu }}</td>
+          <td>{{ item.fri }}</td>
+        </tr>
+      </tbody>
+    </template>
+  </v-simple-table>
 </template>
 
 <script>
@@ -112,4 +110,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style></style>

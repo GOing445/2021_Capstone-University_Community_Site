@@ -84,6 +84,8 @@
 </template>
 
 <script>
+import { PostMyClass } from "@/api/timetable.js";
+
 export default {
   data() {
     return {
@@ -93,23 +95,23 @@ export default {
       weekday: ["월", "화", "수", "목", "금"],
       selectedDay: 0,
       timeItem: [
-        { text: "09 : 00" },
-        { text: "10 : 00" },
-        { text: "11 : 00" },
-        { text: "12 : 00" },
-        { text: "13 : 00" },
-        { text: "14 : 00" },
-        { text: "15 : 00" },
-        { text: "16 : 00" },
-        { text: "17 : 00" },
-        { text: "18 : 00" },
-        { text: "19 : 00" },
-        { text: "20 : 00" },
-        { text: "21 : 00" },
-        { text: "22 : 00" },
+        { text: "09:00" },
+        { text: "10:00" },
+        { text: "11:00" },
+        { text: "12:00" },
+        { text: "13:00" },
+        { text: "14:00" },
+        { text: "15:00" },
+        { text: "16:00" },
+        { text: "17:00" },
+        { text: "18:00" },
+        { text: "19:00" },
+        { text: "20:00" },
+        { text: "21:00" },
+        { text: "22:00" },
       ],
-      startTime: "09 : 00",
-      endTime: "09 : 00",
+      startTime: "09:00",
+      endTime: "10:00",
       memo: "",
       titleRules: [
         (v) => !!v || "과목명을 입력해주세요",
@@ -123,19 +125,27 @@ export default {
   },
 
   methods: {
-    addClass() {
+    async addClass() {
       if (this.$refs.form.validate()) {
-        const data = {
-          title: this.title,
+        const classData = {
+          className: this.title,
           classroom: this.classroom,
-          weekday: this.weekday,
+          day: this.selectedDay + 1,
           start: this.startTime,
           end: this.endTime,
           memo: this.memo,
         };
-        console.log(data);
-        this.$router.push("/main");
-        this.$store.commit("openSnackbar", "새로운 수업이 등록되었습니다!");
+        try {
+          this.$store.commit("openLoadingSpinner");
+          const res = await PostMyClass(classData);
+          this.$store.commit("closeLoadingSpinner");
+          if (res.data.response.status === 202) {
+            this.$router.push("/main");
+            this.$store.commit("openSnackbar", "새로운 수업이 등록되었습니다!");
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
   },

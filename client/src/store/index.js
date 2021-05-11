@@ -8,9 +8,10 @@ export default new Vuex.Store({
   state: {
     id: "",
     username: "",
+    stateMessage: "",
     email: "",
     avatar: "",
-    stateMessage: "상태메세지",
+    code: "",
     snackbar: { state: false, message: "" },
     loading: false,
   },

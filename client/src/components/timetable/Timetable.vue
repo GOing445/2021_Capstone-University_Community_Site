@@ -23,24 +23,33 @@
       offset-x
     >
       <selected-event
-        :selectedId="'123'"
+        :selectedId="selectedEvent.id"
         :selectedName="selectedEvent.name"
         :selectedStart="selectedEvent.start"
         :selectedEnd="selectedEvent.end"
         :selectedClassroom="selectedEvent.classroom"
         :selectedMemo="'123'"
+        @delete-class="showDialog = true"
       />
     </v-menu>
+    <Dialog
+      :showDialog="showDialog"
+      :selectedId="selectedEvent.id"
+      :selectedName="selectedEvent.name"
+      @close-dialog="showDialog = false"
+      @reload="reload"
+    />
   </v-sheet>
 </template>
 <script>
 import ClassBox from "@/components/timetable/ClassBox";
+import Dialog from "@/components/timetable/Dialog";
 import SelectedEvent from "@/components/timetable/SelectedEvent";
 import { fetchMyTimeTable } from "@/api/timetable";
 import { formatDate } from "@/utils/date";
 
 export default {
-  components: { ClassBox, SelectedEvent },
+  components: { ClassBox, SelectedEvent, Dialog },
 
   data: () => ({
     color: ["rgba(63, 81, 181, 0.7)"],
@@ -48,6 +57,7 @@ export default {
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
+    showDialog: false,
   }),
 
   computed: {
@@ -95,7 +105,12 @@ export default {
       else sunday.setDate(sunday.getDate() - sunday.getDay());
 
       for (const el of timetable) {
-        const addClass = { name: el.className, classroom: el.classroom };
+        const addClass = {
+          id: el.id,
+          name: el.className,
+          classroom: el.classroom,
+          memo: el.memo,
+        };
         const newDay = new Date(sunday);
         newDay.setDate(newDay.getDate() + el.day);
         addClass.start = `${formatDate(newDay)} ${el.start}`;
@@ -109,7 +124,7 @@ export default {
         this.$store.state.loading = true;
         const { data } = await fetchMyTimeTable();
         this.$store.state.loading = false;
-        this.setEvents(data.schedule);
+        this.setEvents(data);
       } catch (error) {
         console.log(error);
       }
@@ -130,8 +145,16 @@ export default {
       } else {
         open();
       }
-      console.log(this.selectedEvent);
       nativeEvent.stopPropagation();
+    },
+
+    reload() {
+      this.events = [];
+      this.selectedEvent = {};
+      this.selectedElement = null;
+      this.selectedOpen = false;
+      this.showDialog = false;
+      this.fetchTimetable();
     },
   },
 };

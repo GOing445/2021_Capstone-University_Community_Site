@@ -2,7 +2,7 @@
   <v-app>
     <app-header />
     <transition name="page" mode="out-in">
-      <router-view id="app-body" />
+      <router-view id="app-body" :key="$route.fullPath" />
     </transition>
     <snack-bar />
     <overlay-loading />
@@ -24,10 +24,6 @@ export default {
     try {
       await this.$store.dispatch("LOGIN_WITH_GOOGLE");
       await this.$router.replace("/");
-      // this.$store.commit(
-      //   "openSnackbar",
-      //   `안녕하세요 ${this.$store.state.username}님`
-      // );
     } catch (error) {
       console.log(error);
     }

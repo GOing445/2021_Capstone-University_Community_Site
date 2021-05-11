@@ -6,7 +6,7 @@
       <v-btn icon @click="$router.push('/edit_class')">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-      <v-btn icon>
+      <v-btn icon @click="$emit('delete-class')">
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-toolbar>
@@ -25,16 +25,18 @@
 export default {
   props: {
     selectedId: {
-      type: String,
+      type: Number,
     },
     selectedName: {
       type: String,
     },
     selectedStart: {
       type: String,
+      default: "2021-05-04 09:00",
     },
     selectedEnd: {
       type: String,
+      default: "2021-05-04 09:00",
     },
     selectedClassroom: {
       type: String,
