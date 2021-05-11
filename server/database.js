@@ -63,6 +63,15 @@ class User{ // 사용자 객체
         this.schedules = new Map();
         // console.log(this);
     }
+    toJSON(){
+        return {
+            id:this.id,
+            name:this.name,
+            invCode:this.invCode,
+            registDate:this.registDate,
+            schedule:this.schedules
+        };
+    }
 }
 class Schedule{ // 스케줄 객체
     constructor(data){
@@ -87,6 +96,18 @@ class Schedule{ // 스케줄 객체
         this.start = data.start;// 일정이 시작되는 시간
         this.end = data.end;// 일정이 끝나는 시간
         this.memo = data.memo;// 일정이 끝나는 시간
+    }
+    toJSON(){
+        return {
+            id:this.id,
+            owner:this.owner.id,
+            day:this.day,
+            className:this.className,
+            classroom:this.classroom,
+            start:this.start,
+            end:this.end,
+            memo:this.memo
+        };
     }
 }
 
