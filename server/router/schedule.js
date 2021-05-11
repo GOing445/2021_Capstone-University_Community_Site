@@ -35,7 +35,7 @@ module.exports = function(app, fs, db){
     app.post('/schedule',async function(req,res){
         if(req.session.passport){
             var okPacket = await db.addSchedule(req.session.passport.user.id,req.body);
-            res.status(401).json({response:{status:202,desc:"request success",insertId:okPacket.insertId}});
+            res.status(202).json({response:{status:202,desc:"request success",insertId:okPacket.insertId}});
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
     });

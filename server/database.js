@@ -7,15 +7,16 @@ var Map = require("collections/map");
 //NOTE 이렇게해도 되나싶음 더 좋은방법 있으면 알려주세요
 global.DB = {
     users : new Map(), 
+    schedules : new Map(), 
     // university : new Map(),
-    // schedules : new Map(), 
     // friends : new Map(),
 };
 //데이터베이스가 연결될때 데이터들 패치받기
 async function init() {
     console.log(`DataBase : "${connection.config.host}:${connection.config.port}"`);
     console.log("init실행")
-    module.exports.fatchUsers();
+    await Promise.all([module.exports.fatchUsers(),module.exports.fatchScadules()])
+    module.exports.linkScadules();
 }
 // 커넥션이 만료되면 다시 연결해주는 코드
 module.exports.handleDisconnect = function() {
@@ -50,7 +51,7 @@ class User{ // 사용자 객체
         this.name = null;// 실명
         this.invCode = null;// 비밀번호(암호화된)
         this.registDate = null;// 가입일자
-        this.schedules =[];
+        this.schedules =null;
         // if(data) this.init(data);
     }
     async init(data){
@@ -58,11 +59,37 @@ class User{ // 사용자 객체
         this.name = data.name ;
         this.invCode = data.invCode ;
         this.registDate = data.registDate ;
-        this.schedules = await getSchedulesFromUserID(data.id);
+        this.schedules = new Map();
         // console.log(this);
     }
 }
-getSchedulesFromUserID = function(user_id,callback){
+class Schedule{ // 스케줄 객체
+    constructor(data){
+        this.id = null;// 스케줄 아이디
+        this.owner = null;// 주인
+        this.day = null;// 요일 0(일)~6(토)
+        this.className = null;// 강의 이름
+        this.classroom = null;// 강의실
+        this.start = null;// 일정이 시작되는 시간
+        this.end = null;// 일정이 끝나는 시간
+        this.memo = null;// 일정이 끝나는 시간
+        // if(data) this.init(data);
+    }
+    async init(data){
+        //TODO sql데이터를 파싱해서 객체에 넣어주세요 
+        
+        this.id = data.id;// 스케줄 아이디
+        this.owner = data.owner;// 주인
+        this.day = data.day;// 요일 0(일)~6(토)
+        this.className = data.className;// 강의 이름
+        this.classroom = data.classroom;// 강의실
+        this.start = data.start;// 일정이 시작되는 시간
+        this.end = data.end;// 일정이 끝나는 시간
+        this.memo = data.memo;// 일정이 끝나는 시간
+    }
+}
+
+module.exports.getSchedulesFromUserID = function(user_id,callback){
     return new Promise(function(resolve,reject){
         //쿼리는 이렇게 작성해주면 됨
         let qqq = `SELECT * FROM Schedule WHERE owner = "${user_id}"`;
@@ -89,12 +116,23 @@ module.exports.getScheduleByID = async function(schedule_ID,callback){
 module.exports.deleteScheduleByID = async function(schedule_ID,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `DELETE FROM Schedule WHERE id=${schedule_ID};`;
-        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
-            if(err)console.log(err);
-            if(callback)callback(err, rows); // 콜백함수
-            resolve(rows);
-        });
+        schedule_ID = Number(schedule_ID);
+        let schedule = global.DB.schedules.get(schedule_ID);
+        if(schedule){ 
+            schedule.owner.schedules.delete(schedule_ID);
+            console.log('머선119',global.DB.schedules.delete(schedule_ID));
+    
+            let qqq = `DELETE FROM Schedule WHERE id=${schedule_ID};`;
+            connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+                if(err)console.log(err);
+                if(callback)callback(err, rows); // 콜백함수
+    
+                resolve(rows);
+            });
+        }
+        else{ // 존재하지 않는 스케쥴
+            resolve(false);
+        }
     });
 }
 module.exports.addSchedule = async function(user_id,schedule,callback){
@@ -111,15 +149,44 @@ module.exports.addSchedule = async function(user_id,schedule,callback){
         });
     });
 }
-module.exports.fatchUsers = function() {
-    connection.query(`SELECT * FROM User`,function(err, rows, fields) {
-        for(row of rows){ // 유저한명씩 객체만들고 글로벌객체로 올려두기
-            let user = new User(row) // 새객체
-            user.init(row); // 데이터채우기
-            global.DB.users.set(row.id, user); // 글로벌데이터로 올리기 //콜렉션 모듈을 교체해서 코드 바꿔야됨
+module.exports.fatchUsers = function(callback) {
+    return new Promise(function(resolve,reject){
+        connection.query(`SELECT * FROM User`,function(err, rows, fields) {
+            for(row of rows){ // 유저한명씩 객체만들고 글로벌객체로 올려두기
+                let user = new User(row) // 새객체
+                user.init(row); // 데이터채우기
+                global.DB.users.set(row.id, user); // 글로벌데이터로 올리기 //콜렉션 모듈을 교체해서 코드 바꿔야됨
+            }
+            if(err)console.log(err);
+            if(callback)callback(err, rows); // 콜백함수 형태
+            else resolve(rows);
+        });
+    });
+}
+module.exports.fatchScadules = function(callback) {
+    return new Promise(function(resolve,reject){
+        connection.query(`SELECT * FROM Schedule`,function(err, rows, fields) {
+            for(row of rows){ // 유저한명씩 객체만들고 글로벌객체로 올려두기
+                let schedule = new Schedule(row) // 새객체
+                schedule.init(row); // 데이터채우기
+                global.DB.schedules.set(row.id, schedule); // 글로벌데이터로 올리기 //콜렉션 모듈을 교체해서 코드 바꿔야됨
+            }
+            if(err)console.log(err);
+            // console.log(global.DB.schedule);
+            if(callback)callback(err, rows); // 콜백함수 형태
+            else resolve(rows);
+        });
+    });
+}
+module.exports.linkScadules = function(callback) {
+    return new Promise(function(resolve,reject){
+        for(schedule of global.DB.schedules.toArray()){
+            let user = global.DB.users.get(schedule.owner);
+            user.schedules.set(schedule.id,schedule);
+            schedule.owner = user;    
         }
-        if(err)console.log(err);
         console.log(global.DB.users);
+        resolve();
     });
 }
 //addUser 새로운 유저 생성
@@ -225,5 +292,17 @@ module.exports.getFreiendRequests = async function(userID,callback){
         });
     }); 
 }
+module.exports.getFreiendList = async function(userID,callback){
+    return new Promise(function(resolve,reject){
+        //쿼리
+        let qqq = `SELECT * FROM Friend WHERE isAcceped="Y" AND \`from\`="${userID}" OR \`to\`="${userID}";`;
+        // Logger(qqq); // 로그기능 아직 없으니까 무시
 
-// module.exports.checkFriend(1234,123)
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(err)console.log(err); // 에러검출
+            console.log(rows);
+            if(callback)callback(err, rows); // 콜백함수
+            else resolve(rows);
+        });
+    }); 
+}
