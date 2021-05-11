@@ -24,10 +24,6 @@ export default {
     try {
       await this.$store.dispatch("LOGIN_WITH_GOOGLE");
       await this.$router.replace("/");
-      // this.$store.commit(
-      //   "openSnackbar",
-      //   `안녕하세요 ${this.$store.state.username}님`
-      // );
     } catch (error) {
       console.log(error);
     }

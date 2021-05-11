@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-subheader>시간표 추가</v-subheader>
+    <v-subheader>수업 변경</v-subheader>
     <v-card-text>
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-container>

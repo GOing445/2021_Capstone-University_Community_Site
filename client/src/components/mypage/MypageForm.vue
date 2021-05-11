@@ -5,20 +5,20 @@
       <v-row dense>
         <v-col cols="2">
           <v-avatar size="72">
-            <img alt="아바타" :src="$store.state.avatar" />
+            <img alt="아바타" :src="avatar" />
           </v-avatar>
         </v-col>
         <v-col>
           <v-row dense>
             <h1 class="username">
-              {{ $store.state.username }}
+              {{ username }}
             </h1>
           </v-row>
           <v-row dense>
-            {{ $store.state.email }}
+            {{ email }}
           </v-row>
           <v-row dense>
-            {{ $store.state.stateMessage }}
+            {{ stateMessage }}
           </v-row>
         </v-col>
         <v-col cols="2">
@@ -34,16 +34,16 @@
       </v-row>
       <v-row dense>
         <v-col cols="12">
-          <v-card color="#385F73" dark>
-            <v-card-title class="headline"> Unlimited music now </v-card-title>
-
+          <v-card outlined color="secondary" dark>
+            <v-card-title class="headline">친구 코드</v-card-title>
             <v-card-subtitle>
-              Listen to your favorite artists and albums whenever and wherever,
-              online and offline.
+              친구들에게 공유해 친구의 시간표를 추가해 보세요!
             </v-card-subtitle>
-
+            <v-card-text>
+              <h2>내 친구 코드 : asmodo</h2>
+            </v-card-text>
             <v-card-actions>
-              <v-btn text> Listen Now </v-btn>
+              <v-btn text @click="copyCode">복사하기</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -65,20 +65,40 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { logout } from "@/api/login";
 
 export default {
+  computed: {
+    ...mapState(["id", "username", "stateMessage", "email", "avatar", "code"]),
+  },
+
   methods: {
     async logoutAll() {
       try {
+        this.$store.commit("openLoadingSpinner");
+        this.startLoading;
         await logout();
+        this.$store.commit("closeLoadingSpinner");
         this.$router.push("/login");
       } catch (error) {
         console.log(error);
       }
     },
+
     saveUserData() {
       this.$store.commit("openSnackbar", "변경사항이 적용되었습니다!");
+    },
+
+    async copyCode() {
+      try {
+        this.$store.commit("openLoadingSpinner");
+        const res = await navigator.clipboard.writeText(this.code);
+        console.log(res);
+        this.$store.commit("closeLoadingSpinner");
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

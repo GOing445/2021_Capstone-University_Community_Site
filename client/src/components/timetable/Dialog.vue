@@ -33,9 +33,11 @@ export default {
 
   methods: {
     async deleteClass() {
-      this.$emit("close-dialog");
       try {
+        this.$emit("close-dialog");
+        this.$store.commit("openLoadingSpinner");
         const res = await DeleteMyClass(this.selectedId);
+        this.$store.commit("closeLoadingSpinner");
         if (res.data.response.status === 202) {
           this.$store.commit(
             "openSnackbar",

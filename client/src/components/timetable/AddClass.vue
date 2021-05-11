@@ -136,7 +136,9 @@ export default {
           memo: this.memo,
         };
         try {
+          this.$store.commit("openLoadingSpinner");
           const res = await PostMyClass(classData);
+          this.$store.commit("closeLoadingSpinner");
           if (res.data.response.status === 202) {
             this.$router.push("/main");
             this.$store.commit("openSnackbar", "새로운 수업이 등록되었습니다!");
