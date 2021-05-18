@@ -1,12 +1,5 @@
 <template>
-  <v-btn
-    large
-    width="300"
-    :color="backgroundColor"
-    class="mb-5"
-    @click="login"
-    :disabled="!enable"
-  >
+  <v-btn large width="300" :color="backgroundColor" class="mb-5" @click="login">
     <v-row>
       <v-col cols="1">
         <v-avatar size="20">
@@ -51,6 +44,10 @@ export default {
 
   methods: {
     login() {
+      if (!this.enable) {
+        this.$store.commit("openSnackbar", "준비중 입니다!");
+        return;
+      }
       var port = chrome.extension.connect({
         name: "Sample Communication",
       });
