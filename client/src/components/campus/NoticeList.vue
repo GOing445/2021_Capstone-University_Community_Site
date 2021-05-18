@@ -4,7 +4,7 @@
       <v-list-item-group active-class="pink--text">
         <template v-for="(item, index) in items">
           <v-list-item :key="item.subject">
-            <v-list-item-content @click.stop="test(index)">
+            <v-list-item-content @click.stop="showContent(index)">
               <v-list-item-title v-text="item.subject"></v-list-item-title>
 
               <v-list-item-subtitle
@@ -47,7 +47,8 @@
 </template>
 
 <script>
-import { res } from "./noticedummy.js";
+import { daelimNotice } from "@/api/daelim.js";
+// import { res } from "./noticedummy.js";
 
 export default {
   data() {
@@ -60,21 +61,26 @@ export default {
       },
     };
   },
-  created() {
-    for (const bulletin of res.data.list) {
-      const data = {
-        subject: bulletin.SUBJECT,
-        auther: bulletin.WRITER_NM,
-        hits: bulletin.HITS,
-        date: bulletin.WRITE_DATE,
-        contents: bulletin.CONTENTS,
-      };
-      this.items.push(data);
+  async created() {
+    try {
+      const { data } = await daelimNotice(1);
+      for (const bulletin of data.data.list) {
+        const data = {
+          subject: bulletin.SUBJECT,
+          auther: bulletin.WRITER_NM,
+          hits: bulletin.HITS,
+          date: bulletin.WRITE_DATE,
+          contents: bulletin.CONTENTS,
+        };
+        this.items.push(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   },
 
   methods: {
-    test(idx) {
+    showContent(idx) {
       this.dialog = true;
       this.contents.subject = this.items[idx].subject;
       this.contents.content = this.items[idx].contents;
