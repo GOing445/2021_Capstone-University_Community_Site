@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { res } from "./dummy2.js";
+import { res } from "./noticedummy.js";
 
 export default {
   data() {
