@@ -21,6 +21,7 @@
             :text="button.text"
             :img="button.img"
             :loginURL="button.loginURL"
+            :enable="button.enable"
           />
           <div>
             <router-link to="/signup">회원가입</router-link> |
@@ -47,6 +48,7 @@ export default {
           textColor: "white--text",
           img: "naver",
           loginURL: "http://nisuwainc.cafe24app.com/auth/google",
+          enable: false,
         },
         {
           text: "카카오 아이디로 로그인",
@@ -54,6 +56,7 @@ export default {
           textColor: "brown--text text--darken-4",
           img: "kakao",
           loginURL: "http://nisuwainc.cafe24app.com/auth/google",
+          enable: false,
         },
         {
           text: "구글 아이디로 로그인",
@@ -61,6 +64,7 @@ export default {
           textColor: "white--text",
           img: "google",
           loginURL: "http://nisuwainc.cafe24app.com/auth/google",
+          enable: true,
         },
       ],
     };

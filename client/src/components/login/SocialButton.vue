@@ -1,5 +1,12 @@
 <template>
-  <v-btn large width="300" :color="backgroundColor" class="mb-5" @click="login">
+  <v-btn
+    large
+    width="300"
+    :color="backgroundColor"
+    class="mb-5"
+    @click="login"
+    :disabled="!enable"
+  >
     <v-row>
       <v-col cols="1">
         <v-avatar size="20">
@@ -34,6 +41,10 @@ export default {
     },
     loginURL: {
       type: String,
+      required: true,
+    },
+    enable: {
+      type: Boolean,
       required: true,
     },
   },

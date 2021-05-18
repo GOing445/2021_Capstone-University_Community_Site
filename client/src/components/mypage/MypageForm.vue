@@ -32,14 +32,11 @@
           >
         </v-col>
       </v-row>
-      <v-row dense>
-        <v-col cols="12">
-          <v-card outlined color="secondary" dark>
-            <v-card-title class="headline">친구 코드</v-card-title>
-            <v-card-subtitle>
-              친구들에게 공유해 친구의 시간표를 추가해 보세요!
-            </v-card-subtitle>
+      <v-row>
+        <v-col col="12">
+          <v-card outlined>
             <v-card-text>
+              <p>친구들에게 공유해 친구의 시간표를 추가해 보세요!</p>
               <h2>내 친구 코드 : asmodo</h2>
             </v-card-text>
             <v-card-actions>
@@ -93,8 +90,8 @@ export default {
     async copyCode() {
       try {
         this.$store.commit("openLoadingSpinner");
-        const res = await navigator.clipboard.writeText(this.code);
-        console.log(res);
+        await navigator.clipboard.writeText(this.code);
+        this.$store.commit("openSnackbar", "친구 코드가 복사되었습니다!");
         this.$store.commit("closeLoadingSpinner");
       } catch (error) {
         console.log(error);
