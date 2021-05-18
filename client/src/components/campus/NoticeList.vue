@@ -26,6 +26,7 @@
 
           <v-divider v-if="index < items.length - 1" :key="index"></v-divider>
         </template>
+        <infinite-loading @infinite="infiniteHandler"></infinite-loading>
       </v-list-item-group>
     </v-list>
     <!-- 다이얼로그 -->
@@ -47,13 +48,18 @@
 </template>
 
 <script>
+import InfiniteLoading from "vue-infinite-loading";
 import { daelimNotice } from "@/api/daelim.js";
-// import { res } from "./noticedummy.js";
 
 export default {
+  components: {
+    InfiniteLoading,
+  },
+
   data() {
     return {
       dialog: false,
+      page: 0,
       items: [],
       contents: {
         subject: "",
@@ -61,29 +67,37 @@ export default {
       },
     };
   },
-  async created() {
-    try {
-      const { data } = await daelimNotice(1);
-      for (const bulletin of data.data.list) {
-        const data = {
-          subject: bulletin.SUBJECT,
-          auther: bulletin.WRITER_NM,
-          hits: bulletin.HITS,
-          date: bulletin.WRITE_DATE,
-          contents: bulletin.CONTENTS,
-        };
-        this.items.push(data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  },
 
   methods: {
     showContent(idx) {
       this.dialog = true;
       this.contents.subject = this.items[idx].subject;
       this.contents.content = this.items[idx].contents;
+    },
+    async infiniteHandler($state) {
+      try {
+        const { data } = await daelimNotice(this.page);
+        if (data.data.list) {
+          await setTimeout(() => {
+            this.page += 1;
+            for (const bulletin of data.data.list) {
+              const data = {
+                subject: bulletin.SUBJECT,
+                auther: bulletin.WRITER_NM,
+                hits: bulletin.HITS,
+                date: bulletin.WRITE_DATE,
+                contents: bulletin.CONTENTS,
+              };
+              this.items.push(data);
+            }
+            $state.loaded();
+          }, 1000);
+        } else {
+          $state.complete();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };
