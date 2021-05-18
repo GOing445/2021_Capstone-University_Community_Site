@@ -50,20 +50,16 @@ const routes = [
     path: "/campus",
     component: () => import("@/views/CampusPage.vue"),
     children: [
+      // {
+      //   path: "",
+      //   component: () => import("@/components/campus/DietaryTable.vue"),
+      // },
       {
-        path: "",
-        component: () => import("@/components/campus/DietaryTable.vue"),
-      },
-      {
-        path: "0",
-        component: () => import("@/components/campus/DietaryTable.vue"),
-      },
-      {
-        path: "1",
+        path: "notice",
         component: () => import("@/components/campus/NoticeList.vue"),
       },
       {
-        path: "2",
+        path: "diet",
         component: () => import("@/components/campus/DietaryTable.vue"),
       },
     ],
