@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in desserts" :key="item.name">
+        <tr v-for="item in table" :key="item.name">
           <td v-html="item.name"></td>
           <td>{{ item.mon }}</td>
           <td>{{ item.tue }}</td>
@@ -26,12 +26,20 @@
 </template>
 
 <script>
-import { table } from "./dummy.js";
+import { daelimDietaryTable } from "@/api/daelim.js";
 
 export default {
   data() {
     return {
-      desserts: [
+      table: [],
+    };
+  },
+
+  async created() {
+    try {
+      const { data } = await daelimDietaryTable();
+      const table = data.data;
+      this.table = [
         {
           name: table.CNM11,
           mon: table.CCT11,
@@ -104,8 +112,10 @@ export default {
           thu: table.CCT49,
           fri: table.CCT59,
         },
-      ],
-    };
+      ];
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 </script>

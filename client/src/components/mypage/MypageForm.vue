@@ -45,8 +45,20 @@
           </v-card>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col col="12">
+          <v-card outlined>
+            <v-card-text>
+              <p>친구 요청 목록</p>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn text @click="copyCode">모두 수락하기</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
-    <v-btn
+    <!-- <v-btn
       color="error"
       dark
       fixed
@@ -57,7 +69,7 @@
       @click="saveUserData"
     >
       <v-icon>mdi-content-save</v-icon>
-    </v-btn>
+    </v-btn> -->
   </div>
 </template>
 

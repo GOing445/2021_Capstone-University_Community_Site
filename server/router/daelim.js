@@ -16,7 +16,7 @@ function formatDate(date) {
 
 
 module.exports = function(app, fs, db){
-    app.get('/daerim/diet',function(req,res){
+    app.get('/daelim/diet',function(req,res){
         var options = {
             'method': 'POST',
             'url': 'https://www.daelim.ac.kr/ajaxf/FrBistroSvc/BistroCarteInfo.do',
@@ -31,7 +31,7 @@ module.exports = function(app, fs, db){
             res.send(response.body);
           });  
     });
-    app.get('/daerim/announce/:pageNo',function(req,res){ 
+    app.get('/daelim/announce/:pageNo',function(req,res){ 
         var options = {
             'method': 'POST',
             'url': 'https://www.daelim.ac.kr/ajaxf/FrBoardSvc/BBSViewList.do',
@@ -50,7 +50,7 @@ module.exports = function(app, fs, db){
             res.send(response.body);
         });    
     });
-    app.get('/daerim/schedule',function(req,res){
+    app.get('/daelim/schedule',function(req,res){
         var request = require('request');
         var options = {
           'method': 'POST',

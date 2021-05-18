@@ -4,7 +4,7 @@ module.exports = function(app, fs, db)
 {   
    require("./friends")(app,fs,db);
    require("./schedule")(app,fs,db);
-   require("./daerim")(app,fs,db);
+   require("./daelim")(app,fs,db);
    app.get('/',function(req,res){
       res.render('index.html');
    });
@@ -16,8 +16,12 @@ module.exports = function(app, fs, db)
     //     res.redirect('/session');
     // });
    app.get('/session',function(req,res){
-      res.send(req.session)
-      console.log(req.user)
+      let output = {
+         google : req.session,
+         user : req.session.passport?global.DB.users.get(req.session.passport.user.id):null
+      }
+      res.send(output)
+      console.log(output)
    });
    
    app.get('/api/test1',function(req,res){

@@ -55,17 +55,24 @@ export default new Vuex.Store({
     clearAvatar(state) {
       state.avatar = "";
     },
+    setCode(state, code) {
+      state.code = code;
+    },
+    clearCode(state) {
+      state.code = "";
+    },
   },
   actions: {
     async LOGIN_WITH_GOOGLE({ commit }) {
       try {
         const { data } = await loginWithGoogle();
-        if (data.passport !== undefined) {
-          const userData = data.passport.user;
+        if (data.user !== null) {
+          const userData = data.user;
           commit("setID", userData.id);
-          commit("setUsername", userData.displayName);
-          commit("setEmail", userData.emails[0].value);
-          commit("setAvatar", userData.photos[0].value);
+          commit("setUsername", userData.name);
+          commit("setCode", userData.invCode);
+          commit("setEmail", data.google.passport.user.emails[0].value);
+          commit("setAvatar", data.google.passport.user.photos[0].value);
         }
         return data;
       } catch (error) {
