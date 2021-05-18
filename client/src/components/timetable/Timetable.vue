@@ -114,9 +114,10 @@ export default {
         };
         const newDay = new Date(sunday);
         newDay.setDate(newDay.getDate() + el.day);
-        addClass.start = `${formatDate(sunday)} ${el.start}`;
-        addClass.end = `${formatDate(sunday)} ${el.end}`;
+        addClass.start = `${formatDate(newDay)} ${el.start}`;
+        addClass.end = `${formatDate(newDay)} ${el.end}`;
         this.events.push(addClass);
+        console.log(addClass);
       }
     },
 
