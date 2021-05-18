@@ -1,5 +1,3 @@
-const { addOwnPropertyChangeListener } = require("collections/listen/property-changes");
-
 module.exports = function(app, fs, db){
     app.get('/timetable',function(req,res){
         if(req.session.passport){
@@ -7,12 +5,14 @@ module.exports = function(app, fs, db){
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
     })
-    app.get('/timetable/:user_ID',function(req,res){
+    app.get('/timetable/:user_ID',async function(req,res){
         //todo 친구목록에 있는지 체크할수 있어야함
-        if(req.session.passport){
-            res.send(global.DB.users.get(req.params.user_ID).schedules);
-        }
-        else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
+        
+        checkFriend == await db.checkFriend(req.params.user_ID,req.session.passport.user.id)
+        if(!req.session.passport)res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
+        else if(req.session.passport.user.id==req.params.user_ID?false:!checkFriend.isFriend)
+            res.status(401).json({error:{status:401,desc:"401 error - not a friend"}});
+        else res.send(global.DB.users.get(req.params.user_ID).schedules);
     });
     app.delete('/schedule/:schedule_ID',async function(req,res){
         if(req.session.passport){
