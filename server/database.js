@@ -95,7 +95,7 @@ class Schedule{ // 스케줄 객체
         this.classroom = data.classroom;// 강의실
         this.start = data.start;// 일정이 시작되는 시간
         this.end = data.end;// 일정이 끝나는 시간
-        this.memo = data.memo;// 일정이 끝나는 시간
+        this.memo = data.memo;// 메모
     }
     toJSON(){
         return {
@@ -204,6 +204,7 @@ module.exports.linkScadules = function(callback) {
     return new Promise(function(resolve,reject){
         for(schedule of global.DB.schedules.toArray()){
             let user = global.DB.users.get(schedule.owner);
+            if(!user)continue;
             user.schedules.set(schedule.id,schedule);
             schedule.owner = user;    
         }
