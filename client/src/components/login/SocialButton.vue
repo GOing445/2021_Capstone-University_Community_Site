@@ -36,10 +36,18 @@ export default {
       type: String,
       required: true,
     },
+    enable: {
+      type: Boolean,
+      required: true,
+    },
   },
 
   methods: {
     login() {
+      if (!this.enable) {
+        this.$store.commit("openSnackbar", "준비중 입니다!");
+        return;
+      }
       var port = chrome.extension.connect({
         name: "Sample Communication",
       });

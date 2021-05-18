@@ -2,8 +2,8 @@
   "manifest_version": 2,
   "name": "__MSG_extName__",
   "homepage_url": "http://localhost:8080/",
-  "description": "A Vue Browser Extension",
-  "default_locale": "en",
+  "description": "대림대학교 시간표",
+  "default_locale": "ko",
   "permissions": [
     "<all_urls>",
     "*://*/*"

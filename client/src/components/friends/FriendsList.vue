@@ -56,7 +56,7 @@ export default {
     showMenu: false,
     x: 0,
     y: 0,
-    items: [{ title: "친구삭제" }, { title: "친구삭제" }],
+    items: [{ title: "친구삭제" }],
   }),
 
   methods: {

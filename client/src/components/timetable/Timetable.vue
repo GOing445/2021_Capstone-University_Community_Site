@@ -104,7 +104,8 @@ export default {
       if (sunday.getDay() === 0) sunday.setDate(sunday.getDate() - 7);
       else sunday.setDate(sunday.getDate() - sunday.getDay());
 
-      for (const el of timetable) {
+      for (const node of timetable) {
+        const el = node[1];
         const addClass = {
           id: el.id,
           name: el.className,
@@ -113,8 +114,8 @@ export default {
         };
         const newDay = new Date(sunday);
         newDay.setDate(newDay.getDate() + el.day);
-        addClass.start = `${formatDate(newDay)} ${el.start}`;
-        addClass.end = `${formatDate(newDay)} ${el.end}`;
+        addClass.start = `${formatDate(sunday)} ${el.start}`;
+        addClass.end = `${formatDate(sunday)} ${el.end}`;
         this.events.push(addClass);
       }
     },
