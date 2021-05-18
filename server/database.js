@@ -95,7 +95,7 @@ class Schedule{ // 스케줄 객체
         this.classroom = data.classroom;// 강의실
         this.start = data.start;// 일정이 시작되는 시간
         this.end = data.end;// 일정이 끝나는 시간
-        this.memo = data.memo;// 일정이 끝나는 시간
+        this.memo = data.memo;// 메모
     }
     toJSON(){
         return {
@@ -163,7 +163,9 @@ module.exports.addSchedule = async function(user_id,schedule,callback){
         let qqq = `INSERT INTO \`${db_config.database}\`.\`Schedule\` (\`owner\`, \`day\`, \`className\`, \`classroom\`, \`start\`, \`end\`) VALUES ('${user_id}', '${schedule.day}', '${schedule.className}', '${schedule.classroom}', '${schedule.start}', '${schedule.end}');`;
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
             if(err)console.log(err); // 로그
-            global.DB.users.get(user_id).schedules.push(schedule);
+            // global.DB.users.get(user_id).schedules.push(schedule);
+            global.DB.users.get(user_id).schedules.set(rows.insertId,schedule);
+            global.DB.schedules.set(rows.insertId,schedule);
             console.log(global.DB.users.get(user_id));
             if(callback)callback(err, rows); // 콜백함수
             resolve(rows);
@@ -204,6 +206,7 @@ module.exports.linkScadules = function(callback) {
     return new Promise(function(resolve,reject){
         for(schedule of global.DB.schedules.toArray()){
             let user = global.DB.users.get(schedule.owner);
+            if(!user)continue;
             user.schedules.set(schedule.id,schedule);
             schedule.owner = user;    
         }
