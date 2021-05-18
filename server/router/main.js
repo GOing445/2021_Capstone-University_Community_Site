@@ -4,7 +4,7 @@ module.exports = function(app, fs, db)
 {   
    require("./friends")(app,fs,db);
    require("./schedule")(app,fs,db);
-   require("./daerim")(app,fs,db);
+   require("./daelim")(app,fs,db);
    app.get('/',function(req,res){
       res.render('index.html');
    });
