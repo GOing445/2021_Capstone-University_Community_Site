@@ -163,7 +163,9 @@ module.exports.addSchedule = async function(user_id,schedule,callback){
         let qqq = `INSERT INTO \`${db_config.database}\`.\`Schedule\` (\`owner\`, \`day\`, \`className\`, \`classroom\`, \`start\`, \`end\`) VALUES ('${user_id}', '${schedule.day}', '${schedule.className}', '${schedule.classroom}', '${schedule.start}', '${schedule.end}');`;
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
             if(err)console.log(err); // 로그
-            global.DB.users.get(user_id).schedules.push(schedule);
+            // global.DB.users.get(user_id).schedules.push(schedule);
+            global.DB.users.get(user_id).schedules.set(rows.insertId,schedule);
+            global.DB.schedules.set(rows.insertId,schedule);
             console.log(global.DB.users.get(user_id));
             if(callback)callback(err, rows); // 콜백함수
             resolve(rows);
