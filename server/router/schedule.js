@@ -41,8 +41,13 @@ module.exports = function(app, fs, db){
     });
     app.put('/schedule/:schedule_id',async function(req,res){
         if(req.session.passport){
-            await db.editSchedule(req.params.schedule_id,req.session.passport.user.id,req.body);
-            res.status(202).json({response:{status:202,desc:"request success"}});
+            if(!global.DB.users.get(req.session.passport.user.id).schedules.get(req.params.schedule_id)){
+                res.status(403).json({response:{status:403,desc:"403 error - Request Rejected"}});
+            }
+            else{
+                await db.editSchedule(req.params.schedule_id,req.session.passport.user.id,req.body);
+                res.status(202).json({response:{status:202,desc:"request success"}});
+            }
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
     });
