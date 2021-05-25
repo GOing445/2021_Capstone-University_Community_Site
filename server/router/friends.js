@@ -4,6 +4,7 @@ module.exports = function(app, fs, db){
         if(req.session.passport){
             var user = req.session.passport.user;
             result = await db.checkFriend(user.id, req.params.friend_ID);
+            
             res.send(result);
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
@@ -20,6 +21,7 @@ module.exports = function(app, fs, db){
     app.get('/friends/:user_ID/list', async function(req, res){
         if(req.session.passport){
             var result = await db.getFreiendList(req.params.user_ID);
+            console.log(result);
             res.send(result);
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
@@ -34,6 +36,8 @@ module.exports = function(app, fs, db){
             if(result.isFriend === false){
                 await db.addFriend(user.id, req.params.friend_ID);
                 res.status(202).json({response:{status:202,desc:"request success"}});
+            }else{
+                res.status(400).json({error:{status:401,desc:"400 error"}});
             }
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});  
@@ -48,6 +52,8 @@ module.exports = function(app, fs, db){
             if(result.isFriend === false){
                 await db.acceptFriend(user.id, req.params.friend_ID);
                 res.status(202).json({response:{status:202,desc:"request success"}});
+            }else{
+                res.status(400).json({error:{status:401,desc:"400 error"}});
             }
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
@@ -63,6 +69,8 @@ module.exports = function(app, fs, db){
             if(result.isFriend === true){
                 await db.deleteFriend(user.id, req.params.friend_ID);
                 res.status(202).json({response:{status:202,desc:"request success"}});
+            }else {
+                res.status(400).json({error:{status:401,desc:"400 error"}});
             }
             
         }
