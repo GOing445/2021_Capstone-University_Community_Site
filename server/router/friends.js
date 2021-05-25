@@ -1,9 +1,9 @@
-module.exports = function(app, fs){
+module.exports = function(app, fs, db){
     // 친구 사이 확인 API
     app.get('/friends/:friend_ID', async function(req, res){
         if(req.session.passport){
             var user = req.session.passport.user;
-            result = await db.checkFriend(user.id, friend_ID);
+            result = await db.checkFriend(user.id, req.params.friend_ID);
             res.send(result);
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
