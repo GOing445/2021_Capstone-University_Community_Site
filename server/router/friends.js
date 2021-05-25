@@ -1,9 +1,25 @@
 module.exports = function(app, fs){
     // 친구 사이 확인 API
-    app.get('/friends/:friend_ID', function(req, res){
+    app.get('/friends/:friend_ID', async function(req, res){
         if(req.session.passport){
             var user = req.session.passport.user;
             result = await db.checkFriend(user.id, friend_ID);
+            res.send(result);
+        }
+        else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
+    })
+    // 자신의 대기중인 친구추가 요청리스트 보기
+    app.get('/friends/invite/:user_ID', async function(req, res){
+        if(req.session.passport){
+            var result = await db.getFreiendRequests(user_ID);
+            res.send(result);
+        }
+        else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
+    })
+    // 자신의 친구 리스트 보기
+    app.get('/friends/:user_ID', async function(req, res){
+        if(req.session.passport){
+            var result = await db.getFreiendList(user_ID);
             res.send(result);
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
