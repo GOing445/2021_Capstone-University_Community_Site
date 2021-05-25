@@ -160,10 +160,37 @@ module.exports.deleteScheduleByID = async function(schedule_ID,callback){
 module.exports.addSchedule = async function(user_id,schedule,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `INSERT INTO \`${db_config.database}\`.\`Schedule\` (\`owner\`, \`day\`, \`className\`, \`classroom\`, \`start\`, \`end\`) VALUES ('${user_id}', '${schedule.day}', '${schedule.className}', '${schedule.classroom}', '${schedule.start}', '${schedule.end}');`;
+        let qqq = `INSERT INTO \`${db_config.database}\`.\`Schedule\` (\`owner\`, \`day\`, \`className\`, \`classroom\`, \`start\`, \`end\`, \`memo\`) VALUES ('${user_id}', '${schedule.day}', '${schedule.className}', '${schedule.classroom}', '${schedule.start}', '${schedule.end}', '${schedule.memo}');`;
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
             if(err)console.log(err); // 로그
             // global.DB.users.get(user_id).schedules.push(schedule);
+            global.DB.users.get(user_id).schedules.set(rows.insertId,schedule);
+            global.DB.schedules.set(rows.insertId,schedule);
+            console.log(global.DB.users.get(user_id));
+            if(callback)callback(err, rows); // 콜백함수
+            resolve(rows);
+            // module.exports.fatchUsers(); // 데이터베이스에 변동이 생겼으니 동기화해주기
+        });
+    });
+}
+module.exports.editSchedule = async function(schedule_id,user_id,schedule,callback){
+    return new Promise(function(resolve,reject){
+        //쿼리
+        let eee = '';
+        if(schedule.day)eee+=`\`day\`='${schedule.day}',`
+        if(schedule.className)eee+=`\`className\`='${schedule.className}',`
+        if(schedule.classroom)eee+=`\`classroom\`='${schedule.classroom}',` 
+        if(schedule.start)eee+=`\`start\`='${schedule.start}',`
+        if(schedule.end)eee+=`\`end\`='${schedule.end}',`
+        if(schedule.memo)eee+=`\`memo\`='${schedule.memo}',`
+        eee = eee.replace(/(,+)(?!.*,)/g,'');
+
+        let qqq = `UPDATE \`${db_config.database}\`.\`Schedule\` SET ${eee} WHERE  \`id\`=${schedule_id};`;
+        console.log(qqq);
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(err)console.log(err); // 로그
+            // global.DB.users.get(user_id).schedules.push(schedule);
+            if(!global.DB.users.get(user_id))console.log("editSchedule 유저찾기 실패")
             global.DB.users.get(user_id).schedules.set(rows.insertId,schedule);
             global.DB.schedules.set(rows.insertId,schedule);
             console.log(global.DB.users.get(user_id));
@@ -193,6 +220,7 @@ module.exports.fatchScadules = function(callback) {
             for(row of rows){ // 유저한명씩 객체만들고 글로벌객체로 올려두기
                 let schedule = new Schedule(row) // 새객체
                 schedule.init(row); // 데이터채우기
+                // console.log(schedule);
                 global.DB.schedules.set(row.id, schedule); // 글로벌데이터로 올리기 //콜렉션 모듈을 교체해서 코드 바꿔야됨
             }
             if(err)console.log(err);

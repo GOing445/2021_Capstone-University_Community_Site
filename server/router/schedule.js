@@ -39,6 +39,13 @@ module.exports = function(app, fs, db){
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
     });
+    app.put('/schedule/:schedule_id',async function(req,res){
+        if(req.session.passport){
+            await db.editSchedule(req.params.schedule_id,req.session.passport.user.id,req.body);
+            res.status(202).json({response:{status:202,desc:"request success"}});
+        }
+        else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
+    });
     // app.post('/schedule/:schedule_ID}',function(req,res){
     //     res.send(req.session)
     // });
