@@ -11,15 +11,15 @@ module.exports = function(app, fs, db){
     // 자신의 대기중인 친구추가 요청리스트 보기
     app.get('/friends/invite/:user_ID', async function(req, res){
         if(req.session.passport){
-            var result = await db.getFreiendRequests(user_ID);
+            var result = await db.getFreiendRequests(req.params.user_ID);
             res.send(result);
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
     })
     // 자신의 친구 리스트 보기
-    app.get('/friends/:user_ID', async function(req, res){
+    app.get('/friends/:user_ID/list', async function(req, res){
         if(req.session.passport){
-            var result = await db.getFreiendList(user_ID);
+            var result = await db.getFreiendList(req.params.user_ID);
             res.send(result);
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
