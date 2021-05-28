@@ -310,10 +310,9 @@ module.exports.checkFriend = async function(from,to,callback){
             if(err)console.log(err); // 에러검출
             if(rows.length==0){//서로 친구가 아니면
                 output.isEmpty = true;
-                output.isFriend = false;
             }
             else{ //일방적인 친구관계
-                if(rows[0].isAcceped){ //친구요청 상태
+                if(rows[0].isAcceped=='Y'){ //친구요청 상태
                     output.isFriend = true;
                 }
                 else{ //친구요청 대기중인 상태
