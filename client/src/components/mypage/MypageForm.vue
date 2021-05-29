@@ -37,7 +37,7 @@
           <v-card outlined>
             <v-card-text>
               <p>친구들에게 공유해 친구의 시간표를 추가해 보세요!</p>
-              <h2>내 친구 코드 : asmodo</h2>
+              <h2>내 친구 코드 : {{ code }}</h2>
             </v-card-text>
             <v-card-actions>
               <v-btn text @click="copyCode">복사하기</v-btn>
@@ -50,6 +50,14 @@
           <v-card outlined>
             <v-card-text>
               <p>친구 요청 목록</p>
+              <template v-for="(user, idx) in users">
+                <list-item
+                  :user="user"
+                  :key="user.title"
+                  @click-menu="showMenuList"
+                />
+                <v-divider v-if="idx < users.length" :key="idx"></v-divider>
+              </template>
             </v-card-text>
             <v-card-actions>
               <v-btn text @click="copyCode">모두 수락하기</v-btn>
@@ -74,12 +82,30 @@
 </template>
 
 <script>
+import ListItem from "@/components/mypage/ListItem";
+
 import { mapState } from "vuex";
 import { logout } from "@/api/login";
+import { fetchWaitingFriends } from "@/api/friends";
 
 export default {
+  components: {
+    ListItem,
+  },
+
+  data() {
+    return {
+      users: [{ title: "title", avatar: "test", status: "test" }],
+    };
+  },
+
   computed: {
     ...mapState(["id", "username", "stateMessage", "email", "avatar", "code"]),
+  },
+
+  async created() {
+    const { data } = await fetchWaitingFriends(this.code);
+    console.log(data);
   },
 
   methods: {

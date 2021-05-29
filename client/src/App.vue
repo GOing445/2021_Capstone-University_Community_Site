@@ -47,6 +47,7 @@ html {
 
 #app-body {
   height: 528px;
+  overflow-y: scroll;
 }
 
 .page-enter-active,

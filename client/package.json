@@ -1,6 +1,6 @@
 {
-  "name": "daelim-time",
-  "version": "0.1.0",
+  "name": "daelim-pick",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service build --mode development --watch",
