@@ -37,11 +37,13 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 passport.use(new GoogleStrategy(config.GOOGLE,
-  function(accessToken, refreshToken, profile, cb) {
+  async function(accessToken, refreshToken, profile, cb) {
     console.log(refreshToken)
     profile.accessToken = accessToken;
     //db에없으면 회원가입
-    if(!global.DB.users.get(profile.id))db.addUser({id:profile.id,name:profile.displayName});
+    console.log(profile);
+    if(!global.DB.users.get(profile.id))await db.addUser({id:profile.id,name:profile.displayName});
+    db.updataProfilePicture(profile.id,profile._json.picture);
     return cb(null, profile);
   }
 ));

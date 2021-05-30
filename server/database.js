@@ -53,6 +53,7 @@ class User{ // 사용자 객체
         this.invCode = null;// 비밀번호(암호화된)
         this.registDate = null;// 가입일자
         this.schedules =null;
+        this.picture = null; // 프로필사진
         // if(data) this.init(data);
     }
     async init(data){
@@ -61,6 +62,7 @@ class User{ // 사용자 객체
         this.invCode = data.invCode ;
         this.registDate = data.registDate ;
         this.schedules = new Map();
+        this.picture = data.picture;
         // console.log(this);
     }
     toJSON(){
@@ -110,7 +112,20 @@ class Schedule{ // 스케줄 객체
         };
     }
 }
-
+module.exports.updataProfilePicture = function(user_id,picture,callback){
+    return new Promise(function(resolve,reject){
+        user = global.DB.get(user_id);
+        if(user)user.picture = picture;
+        let qqq = `UPDATE \`${db_config.database}\`.\`User\` SET picture="${picture}" WHERE  \`id\`="${user_id}";`;
+        console.log(qqq);
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(err)console.log(err); // 로그기능 아직 없으니까 무시2
+            if(callback)callback(err, rows); // 콜백함수 형태로 구현되있음 async await 형태로 구현하면 더 좋을것같음
+            else resolve(rows)
+            // module.exports.fatchUsers(); // 데이터베이스에 변동이 생겼으니 동기화해주기
+        });
+    });
+}
 module.exports.getSchedulesFromUserID = function(user_id,callback){
     return new Promise(function(resolve,reject){
         //쿼리는 이렇게 작성해주면 됨
