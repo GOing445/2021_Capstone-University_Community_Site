@@ -67,12 +67,12 @@ export default new Vuex.Store({
       try {
         const { data } = await loginWithGoogle();
         if (data.user !== null) {
-          const userData = data.user;
+          const userData = data.google.passport.user;
           commit("setID", userData.id);
-          commit("setUsername", userData.name);
-          commit("setCode", userData.invCode);
-          commit("setEmail", data.google.passport.user.emails[0].value);
-          commit("setAvatar", data.google.passport.user.photos[0].value);
+          commit("setUsername", userData.displayName);
+          commit("setCode", userData.id);
+          commit("setEmail", userData.emails[0].value);
+          commit("setAvatar", userData.photos[0].value);
         }
         return data;
       } catch (error) {
