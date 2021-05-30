@@ -8,7 +8,7 @@ module.exports = function(app, fs, db){
     app.get('/timetable/:user_ID',async function(req,res){
         //todo 친구목록에 있는지 체크할수 있어야함
         
-        checkFriend == await db.checkFriend(req.params.user_ID,req.session.passport.user.id)
+        checkFriend = await db.checkFriend(req.params.user_ID,req.session.passport.user.id)
         if(!req.session.passport)res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
         else if(req.session.passport.user.id==req.params.user_ID?false:!checkFriend.isFriend)
             res.status(401).json({error:{status:401,desc:"401 error - not a friend"}});
