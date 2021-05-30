@@ -351,10 +351,15 @@ module.exports.getFreiendList = async function(userID,callback){
         // Logger(qqq); // 로그기능 아직 없으니까 무시
 
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            var out = []
             if(err)console.log(err); // 에러검출
+            for(row of rows){
+                if(row.to == userID)out.push(global.DB.users.get(row.from));
+                else out.push(global.DB.users.get(row.from));
+            }
             console.log(rows);
-            if(callback)callback(err, rows); // 콜백함수
-            else resolve(rows);
+            if(callback)callback(err, out); // 콜백함수
+            else resolve(out);
         });
     }); 
 }
