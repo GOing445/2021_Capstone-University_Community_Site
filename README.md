@@ -8,7 +8,7 @@
 <h2>Daelim Pick</h2>
 <p>시간표 관리와 친구 시간표 보기, 학교 공부 확인을 이용 할 수 있는 chrome extension입니다.</p>
 
-### 📅 <a hrep="https://chrome.google.com/webstore/detail/%EB%8C%80%EB%A6%BC%ED%94%BD/beabgbjleckdhifhckdekgjkhnkinnjf?hl=ko&authuser=0">chrome 웹 스토어에서 다운로드</a>
+### 📅 <a href="https://chrome.google.com/webstore/detail/%EB%8C%80%EB%A6%BC%ED%94%BD/beabgbjleckdhifhckdekgjkhnkinnjf?hl=ko&">chrome 웹 스토어에서 다운로드</a>
 
 ## Scripts 👨‍💻
 
