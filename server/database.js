@@ -355,7 +355,7 @@ module.exports.getFreiendList = async function(userID,callback){
             if(err)console.log(err); // 에러검출
             for(row of rows){
                 if(row.to == userID)out.push(global.DB.users.get(row.from));
-                else out.push(global.DB.users.get(row.from));
+                else out.push(global.DB.users.get(row.to));
             }
             console.log(rows);
             if(callback)callback(err, out); // 콜백함수
