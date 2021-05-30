@@ -114,7 +114,7 @@ class Schedule{ // 스케줄 객체
 }
 module.exports.updataProfilePicture = function(user_id,picture,callback){
     return new Promise(function(resolve,reject){
-        user = global.DB.get(user_id);
+        user = global.DB.users.get(user_id);
         if(user)user.picture = picture;
         let qqq = `UPDATE \`${db_config.database}\`.\`User\` SET picture="${picture}" WHERE  \`id\`="${user_id}";`;
         console.log(qqq);
