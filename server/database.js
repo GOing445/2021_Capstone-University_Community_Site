@@ -376,7 +376,7 @@ module.exports.checkUser = async function(userID,callback){
 module.exports.getFreiendRequests = async function(userID,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `SELECT User.* FROM Friend,User WHERE Friend.to = User.id AND Friend.isAcceped="N" AND Friend.to="${userID}";`;
+        let qqq = `SELECT User.* FROM Friend,User WHERE Friend.from = User.id AND Friend.isAcceped="N" AND Friend.to="${userID}";`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
 
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
