@@ -65,6 +65,7 @@ module.exports = function(app, fs, db){
             var isUser = await db.checkUser(req.params.friend_ID);
             if(result.isFriend === true && isUser.truth){
                 await db.deleteFriend(user.id, req.params.friend_ID);
+                await db.deleteFriend(req.params.friend_ID,user.id);
                 res.status(202).json({response:{status:202,desc:"request success"}});
             }else {
                 res.status(400).json({error:{status:400,desc:"400 error"}});
