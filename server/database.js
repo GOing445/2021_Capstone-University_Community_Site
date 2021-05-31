@@ -345,6 +345,24 @@ module.exports.checkFriend = async function(from,to,callback){
         });
     }); 
 }
+module.exports.checkUser = async function(userID,callback){
+    return new Promise(function(resolve,reject){
+        //쿼리
+        let qqq = `SELECT * FROM User WHERE User.id="${userID}"`;
+        // Logger(qqq); // 로그기능 아직 없으니까 무시
+        let output = {
+            isUser : false, // 실제 유저인가?
+        }
+        connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
+            if(err)output.isUser = false; // 에러검출
+            else output.isUser = true;
+            
+            console.log(output);
+            if(callback)callback(err, output); 
+            else resolve(output);
+        });
+    }); 
+}
 module.exports.getFreiendRequests = async function(userID,callback){
     return new Promise(function(resolve,reject){
         //쿼리
