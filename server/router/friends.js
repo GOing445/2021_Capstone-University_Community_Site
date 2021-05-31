@@ -27,8 +27,8 @@ module.exports = function(app, fs, db){
             var user = req.session.passport.user;
             // 친구와의 관계를 가져온다.
             var result = await db.checkFriend(req.params.friend_ID, user.id);
-            var isUser = await db.isUser(req.params.friend_ID);
-            if((result.isFriend === false) && (result.isPending === false) && isUser ){
+            var isUser = await db.checkUser(req.params.friend_ID);
+            if((result.isFriend === false) && (result.isPending === false) && isUser.truth ){
                 await db.addFriend(req.params.friend_ID, user.id);
                 res.status(202).json({response:{status:202,desc:"request success"}});
             }else{
@@ -44,8 +44,8 @@ module.exports = function(app, fs, db){
             var user = req.session.passport.user;
             // 친구와의 관계 정보를 가져온다.
             var result = await db.checkFriend(user.id, req.params.friend_ID);
-            var isUser = await db.isUser(req.params.friend_ID);
-            if((result.isFriend === false) && (result.isPending === true) && isUser){
+            var isUser = await db.checkUser(req.params.friend_ID);
+            if((result.isFriend === false) && (result.isPending === true) && isUser.truth){
                 await db.acceptFriend(user.id, req.params.friend_ID);
                 res.status(202).json({response:{status:202,desc:"request success"}});
             }else{
@@ -62,8 +62,8 @@ module.exports = function(app, fs, db){
             var user = req.session.passport.user;
             // 친구인지 정보를 가져온다.
             var result = await db.checkFriend(user.id, req.params.friend_ID);
-            var isUser = await db.isUser(req.params.friend_ID);
-            if(result.isFriend === true && isUser){
+            var isUser = await db.checkUser(req.params.friend_ID);
+            if(result.isFriend === true && isUser.truth){
                 await db.deleteFriend(user.id, req.params.friend_ID);
                 res.status(202).json({response:{status:202,desc:"request success"}});
             }else {
