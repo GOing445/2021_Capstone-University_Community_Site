@@ -345,7 +345,7 @@ module.exports.checkFriend = async function(from,to,callback){
         });
     }); 
 }
-module.exports.checkUser = async function(userID,callback){
+module.exports.isUser = async function(userID,callback){
     return new Promise(function(resolve,reject){
         //쿼리
         let qqq = `SELECT * FROM User WHERE User.id="${userID}"`;
@@ -354,8 +354,16 @@ module.exports.checkUser = async function(userID,callback){
             isUser : false, // 실제 유저인가?
         }
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
-            if(err)output.isUser = false; // 에러검출
-            else output.isUser = true;
+            if(err)console.log(err) // 에러검출
+            else{
+                if(rows[0].id=userID){
+                    output.isUser = false;
+                }
+                else{
+                    output.isUser = false;
+                }
+            }
+            output.isUser = true;
             
             console.log(output);
             if(callback)callback(err, output); 

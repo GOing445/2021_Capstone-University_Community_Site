@@ -1,13 +1,5 @@
 module.exports = function(app, fs, db){
-    // 친구 사이 확인 API
-    app.get('/friends/:friend_ID', async function(req, res){
-        if(req.session.passport){
-            var user = req.session.passport.user;
-            result = await db.checkFriend(user.id, req.params.friend_ID);
-            res.send(result);
-        }
-        else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
-    })
+   
     // 자신의 대기중인 친구추가 요청리스트 보기
     app.get('/friends/invite', async function(req, res){
         if(req.session.passport){
@@ -82,5 +74,14 @@ module.exports = function(app, fs, db){
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
 
     })    
+     // 친구 사이 확인 API
+     app.get('/friends/:friend_ID', async function(req, res){
+        if(req.session.passport){
+            var user = req.session.passport.user;
+            result = await db.checkFriend(user.id, req.params.friend_ID);
+            res.send(result);
+        }
+        else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
+    })
 
 }
