@@ -29,7 +29,7 @@ module.exports = function(app, fs, db){
             var result = await db.checkFriend(req.params.friend_ID, user.id);
             var isUser = await db.checkUser(req.params.friend_ID);
             if((result.isFriend === false) && (result.isPending === false) && isUser.truth ){
-                await db.addFriend(req.params.friend_ID, user.id);
+                await db.addFriend(user.id,req.params.friend_ID);
                 res.status(202).json({response:{status:202,desc:"request success"}});
             }else{
                 res.status(400).json({error:{status:400,desc:"400 error"}});
