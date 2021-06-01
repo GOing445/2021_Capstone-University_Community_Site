@@ -116,7 +116,7 @@ module.exports.updataProfilePicture = function(user_id,picture,callback){
     return new Promise(function(resolve,reject){
         user = global.DB.users.get(user_id);
         if(user)user.picture = picture;
-        let qqq = `UPDATE \`${db_config.database}\`.\`User\` SET picture="${mysql.escape(picture)}" WHERE  \`id\`="${mysql.escape(user_id)}";`;
+        let qqq = `UPDATE \`${db_config.database}\`.\`User\` SET picture=${mysql.escape(picture)} WHERE  \`id\`=${mysql.escape(user_id)};`;
         console.log(qqq);
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
             if(err)console.log(err); // 로그기능 아직 없으니까 무시2
@@ -129,7 +129,7 @@ module.exports.updataProfilePicture = function(user_id,picture,callback){
 module.exports.getSchedulesFromUserID = function(user_id,callback){
     return new Promise(function(resolve,reject){
         //쿼리는 이렇게 작성해주면 됨
-        let qqq = `SELECT * FROM Schedule WHERE owner = "${mysql.escape(user_id)}"`;
+        let qqq = `SELECT * FROM Schedule WHERE owner = ${mysql.escape(user_id)}`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
             if(err)console.log(err); // 로그기능 아직 없으니까 무시2
@@ -175,7 +175,7 @@ module.exports.deleteScheduleByID = async function(schedule_ID,callback){
 module.exports.addSchedule = async function(user_id,schedule,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `INSERT INTO \`${db_config.database}\`.\`Schedule\` (\`owner\`, \`day\`, \`className\`, \`classroom\`, \`start\`, \`end\`, \`memo\`) VALUES ('${mysql.escape(user_id)}', '${mysql.escape(schedule.day)}', '${mysql.escape(schedule.className)}', '${mysql.escape(schedule.classroom)}', '${mysql.escape(schedule.start)}', '${mysql.escape(schedule.end)}', '${mysql.escape(schedule.memo)}');`;
+        let qqq = `INSERT INTO \`${db_config.database}\`.\`Schedule\` (\`owner\`, \`day\`, \`className\`, \`classroom\`, \`start\`, \`end\`, \`memo\`) VALUES (${mysql.escape(user_id)}, ${mysql.escape(schedule.day)}, ${mysql.escape(schedule.className)}, ${mysql.escape(schedule.classroom)}, ${mysql.escape(schedule.start)}, ${mysql.escape(schedule.end)}, ${mysql.escape(schedule.memo)});`;
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
             if(err)console.log(err); // 로그
             // global.DB.users.get(user_id).schedules.push(schedule);
@@ -192,12 +192,12 @@ module.exports.editSchedule = async function(schedule_id,user_id,schedule,callba
     return new Promise(function(resolve,reject){
         //쿼리
         let eee = '';
-        if(schedule.day)eee+=`\`day\`='${mysql.escape(schedule.day)}',`
-        if(schedule.className)eee+=`\`className\`='${mysql.escape(schedule.className)}',`
-        if(schedule.classroom)eee+=`\`classroom\`='${mysql.escape(schedule.classroom)}',` 
-        if(schedule.start)eee+=`\`start\`='${mysql.escape(schedule.start)}',`
-        if(schedule.end)eee+=`\`end\`='${mysql.escape(schedule.end)}',`
-        if(schedule.memo)eee+=`\`memo\`='${mysql.escape(schedule.memo)}',`
+        if(schedule.day)eee+=`\`day\`=${mysql.escape(schedule.day)},`
+        if(schedule.className)eee+=`\`className\`=${mysql.escape(schedule.className)},`
+        if(schedule.classroom)eee+=`\`classroom\`=${mysql.escape(schedule.classroom)},` 
+        if(schedule.start)eee+=`\`start\`=${mysql.escape(schedule.start)},`
+        if(schedule.end)eee+=`\`end\`=${mysql.escape(schedule.end)},`
+        if(schedule.memo)eee+=`\`memo\`=${mysql.escape(schedule.memo)},`
         eee = eee.replace(/(,+)(?!.*,)/g,'');
 
         let qqq = `UPDATE \`${db_config.database}\`.\`Schedule\` SET ${eee} WHERE  \`id\`=${mysql.escape(schedule_id)};`;
@@ -245,6 +245,17 @@ module.exports.fatchScadules = function(callback) {
         });
     });
 }
+module.exports.findUserbyCode = function(userName,userCode,callback) {
+    return new Promise(function(resolve,reject){
+        console.log(`SELECT * FROM User WHERE name=${mysql.escape(userName)} AND invCode=${mysql.escape(userCode)}`);
+        connection.query(`SELECT * FROM User WHERE name=${mysql.escape(userName)} AND invCode=${mysql.escape(userCode)}`,function(err, rows, fields) {
+            if(err)console.log(err);
+            // console.log(global.DB.schedule);
+            if(callback)callback(err, rows); // 콜백함수 형태
+            else resolve(rows);
+        });
+    });
+}
 module.exports.linkScadules = function(callback) {
     return new Promise(function(resolve,reject){
         for(schedule of global.DB.schedules.toArray()){
@@ -261,7 +272,7 @@ module.exports.linkScadules = function(callback) {
 module.exports.addUser = function(user,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `INSERT INTO \`${db_config.database}\`.\`User\` (\`id\`, \`name\`, \`invCode\`, \`registDate\`) VALUES ('${mysql.escape(user.id)}', '${mysql.escape(user.name)}', '${mysql.escape(Math.floor(Math.random() * (9999 - 0)))}', CURRENT_TIMESTAMP);`;
+        let qqq = `INSERT INTO \`${db_config.database}\`.\`User\` (\`id\`, \`name\`, \`invCode\`, \`registDate\`) VALUES (${mysql.escape(user.id)}, ${mysql.escape(user.name)}, ${mysql.escape(Math.floor(Math.random() * (9999 - 0)))}, CURRENT_TIMESTAMP);`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
         
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
@@ -275,7 +286,7 @@ module.exports.addUser = function(user,callback){
 module.exports.addFriend = function(from,to,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `INSERT INTO \`${db_config.database}\`.\`Friend\` (\`from\`, \`to\`, \`time\`, \`isAcceped\`) VALUES ('${mysql.escape(from)}', '${mysql.escape(to)}', CURRENT_TIMESTAMP, 'N');`;
+        let qqq = `INSERT INTO \`${db_config.database}\`.\`Friend\` (\`from\`, \`to\`, \`time\`, \`isAcceped\`) VALUES (${mysql.escape(from)}, ${mysql.escape(to)}, CURRENT_TIMESTAMP, 'N');`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
         
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
@@ -288,7 +299,7 @@ module.exports.addFriend = function(from,to,callback){
 module.exports.acceptFriend = function(from,to,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `UPDATE \`${db_config.database}\`.\`Friend\` SET \`isAcceped\`='Y' WHERE  \`from\`='${mysql.escape(from)}' AND \`to\`='${mysql.escape(to)}';`;
+        let qqq = `UPDATE \`${db_config.database}\`.\`Friend\` SET \`isAcceped\`='Y' WHERE  \`from\`=${mysql.escape(from)} AND \`to\`=${mysql.escape(to)};`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
         
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
@@ -301,7 +312,7 @@ module.exports.acceptFriend = function(from,to,callback){
 module.exports.deleteFriend = function(from,to,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `DELETE FROM \`${db_config.database}\`.\`Friend\` WHERE  \`from\`='${mysql.escape(from)}' AND \`to\`='${mysql.escape(to)}';`;
+        let qqq = `DELETE FROM \`${db_config.database}\`.\`Friend\` WHERE  \`from\`=${mysql.escape(from)} AND \`to\`=${mysql.escape(to)};`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
         
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
@@ -314,7 +325,7 @@ module.exports.deleteFriend = function(from,to,callback){
 module.exports.checkFriend = async function(from,to,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `SELECT \`from\`, \`to\`, \`time\`, \`isAcceped\` FROM \`pateno0127\`.\`Friend\` WHERE  (\`from\`='${mysql.escape(from)}' AND \`to\`='${mysql.escape(to)}') OR (\`from\`='${mysql.escape(to)}' AND \`to\`='${mysql.escape(from)}');`;
+        let qqq = `SELECT \`from\`, \`to\`, \`time\`, \`isAcceped\` FROM \`pateno0127\`.\`Friend\` WHERE  (\`from\`=${mysql.escape(from)} AND \`to\`=${mysql.escape(to)}) OR (\`from\`=${mysql.escape(to)} AND \`to\`=${mysql.escape(from)});`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
         let output = {
             isFriend : false, //친구인가?
@@ -348,7 +359,7 @@ module.exports.checkFriend = async function(from,to,callback){
 module.exports.checkUser = async function(userID,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `SELECT * FROM User WHERE User.id="${mysql.escape(userID)}"`;
+        let qqq = `SELECT * FROM User WHERE User.id=${mysql.escape(userID)}`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
         
         let output = {
@@ -376,7 +387,7 @@ module.exports.checkUser = async function(userID,callback){
 module.exports.getFreiendRequests = async function(userID,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `SELECT User.* FROM Friend,User WHERE Friend.from = User.id AND Friend.isAcceped="N" AND Friend.to="${mysql.escape(userID)}";`;
+        let qqq = `SELECT User.* FROM Friend,User WHERE Friend.from = User.id AND Friend.isAcceped="N" AND Friend.to=${mysql.escape(userID)};`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
 
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
@@ -390,7 +401,7 @@ module.exports.getFreiendRequests = async function(userID,callback){
 module.exports.getFreiendList = async function(userID,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `SELECT * FROM Friend WHERE isAcceped="Y" AND (\`from\`="${mysql.escape(userID)}" OR \`to\`="${mysql.escape(userID)}");`;
+        let qqq = `SELECT * FROM Friend WHERE isAcceped="Y" AND (\`from\`=${mysql.escape(userID)} OR \`to\`=${mysql.escape(userID)});`;
         // Logger(qqq); // 로그기능 아직 없으니까 무시
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
             var out = []
