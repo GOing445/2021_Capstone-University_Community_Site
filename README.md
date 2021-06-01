@@ -29,7 +29,7 @@ npm run test:unit
 
 <table>
   <tr>
-    <td align="center"><a href="깃허브 주소"><img src="깃허브 프로필 이미지 링크" width="100px;" alt="이미지"/><br /><sub><b>username</b></sub></a><br />🍿</td>
+    <td align="center"><a href="https://github.com/ggoya0820"><img src="https://avatars.githubusercontent.com/u/81150151?v=4" width="100px;" alt="이미지"/><br /><sub><b>ggoya0820</b></sub></a><br />UI/UX🐈</td>
     <td align="center"><a href="https://github.com/DuYeong0020"><img src="https://avatars.githubusercontent.com/u/71247713?v=4" width="100px;" alt="이미지"/><br /><sub><b>DuYeong0020</b></sub></a><br />back-end🍿</td>
     <td align="center"><a href="https://github.com/GOing445"><img src="https://avatars.githubusercontent.com/u/35233009?v=4" width="100px;" alt="이미지"/><br /><sub><b>GOing445</b></sub></a><br />back-end🍿</td>
     <td align="center"><a href="https://github.com/dalcon10028"><img src="https://avatars.githubusercontent.com/u/30119526?s=460&u=d798517691d2d73549fce15c8aecd4722bb68d0b&v=4" width="100px;" alt=""/><br /><sub><b>dalcon10028</b></sub></a><br />front-end🍿</td>
