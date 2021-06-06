@@ -28,14 +28,16 @@ module.exports = function(app, fs, db){
 
             
             // 친구코드로 대상 유저를 찾는다.
-            var target = await db.findUserbyCode(req.params.friend_Name,req.params.friend_Code)[0];
-            console.log('target',target);
-            if(!target){ // 대상이 없으면
+            var target = await db.findUserbyCode(req.params.friend_Name,req.params.friend_Code);
+            if(target.length==0){ // 대상이 없으면
                 res.status(406).json({response:{status:406,desc:"406 error - User not Found"}}); // 대상이없으면 에러처리
                 return;
             }
-
-
+            else if(target.length>=2){
+                res.status(406).json({response:{status:406,desc:"406 error - Duplicate user error."}}); // 대상이없으면 에러처리
+                return;
+            }
+            target = target[0]
             // 친구와의 관계를 가져온다.
             var result = await db.checkFriend(target.id, user.id);
             var isUser = await db.checkUser(target.id);
