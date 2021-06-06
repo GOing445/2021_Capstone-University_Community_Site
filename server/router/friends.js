@@ -33,7 +33,7 @@ module.exports = function(app, fs, db){
                 res.status(406).json({response:{status:406,desc:"406 error - User not Found"}}); // 대상이없으면 에러처리
                 return;
             }
-            else if(target.length>=2){
+            else if(target.length>=2){ // 여러명의 유저
                 res.status(406).json({response:{status:406,desc:"406 error - Duplicate user error."}}); // 대상이없으면 에러처리
                 return;
             }
@@ -45,7 +45,14 @@ module.exports = function(app, fs, db){
             if((result.isFriend === false) && (result.isPending === false) && isUser.truth ){
                 await db.addFriend(user.id,target.id);
                 res.status(202).json({response:{status:202,desc:"request success"}});
-            }else{
+            }
+            else if(result.isFriend){
+                res.status(406).json({response:{status:406,desc:"406 error - already friend"}});
+            }
+            else if(result.isPending){
+                res.status(406).json({response:{status:406,desc:"406 error - already pending"}});
+            }
+            else{
                 res.status(400).json({error:{status:400,desc:"400 error"}});
             }
         }
@@ -67,8 +74,7 @@ module.exports = function(app, fs, db){
             }
         }
         else res.status(401).json({error:{status:401,desc:"401 error - Unauthorized"}});
-    })    
-    // 
+    })
     // 친구 삭제
     app.delete('/friends/:friend_ID',async function(req, res){
         if(req.session.passport){
