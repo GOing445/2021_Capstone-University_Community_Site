@@ -1,6 +1,6 @@
 <template>
-  <v-sheet height="528">
-    <v-subheader>이연권의 시간표</v-subheader>
+  <v-sheet height="480">
+    <v-subheader>{{ this.$route.params.username }}의 시간표</v-subheader>
     <v-calendar
       ref="calendar"
       type="week"
@@ -20,7 +20,7 @@
 </template>
 <script>
 import ClassBox from "@/components/timetable/ClassBox";
-import { fetchMyTimeTable } from "@/api/timetable";
+import { fetchFriendTimetable } from "@/api/friends";
 import { formatDate } from "@/utils/date";
 
 export default {
@@ -46,7 +46,7 @@ export default {
   },
 
   created() {
-    this.fetchTimetable();
+    this.fetchTimetable(this.$route.params.id);
   },
 
   methods: {
@@ -73,7 +73,8 @@ export default {
       if (sunday.getDay() === 0) sunday.setDate(sunday.getDate() - 7);
       else sunday.setDate(sunday.getDate() - sunday.getDay());
 
-      for (const el of timetable) {
+      for (const data of timetable) {
+        const el = data[1];
         const addClass = { name: el.className, classroom: el.classroom };
         const newDay = new Date(sunday);
         newDay.setDate(newDay.getDate() + el.day);
@@ -82,12 +83,12 @@ export default {
         this.events.push(addClass);
       }
     },
-    async fetchTimetable() {
+    async fetchTimetable(id) {
       try {
         this.$store.state.loading = true;
-        const { data } = await fetchMyTimeTable();
+        const { data } = await fetchFriendTimetable(id);
         this.$store.state.loading = false;
-        this.setEvents(data.schedule);
+        this.setEvents(data);
       } catch (error) {
         console.log(error);
       }
