@@ -70,7 +70,7 @@ export default new Vuex.Store({
           const userData = data.google.passport.user;
           commit("setID", userData.id);
           commit("setUsername", userData.displayName);
-          commit("setCode", userData.id);
+          commit("setCode", data.user.invCode);
           commit("setEmail", userData.emails[0].value);
           commit("setAvatar", userData.photos[0].value);
         }
