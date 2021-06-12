@@ -71,7 +71,8 @@ class User{ // 사용자 객체
             name:this.name,
             invCode:this.invCode,
             registDate:this.registDate,
-            schedule:this.schedules
+            schedule:this.schedules,
+            picture:this.picture
         };
     }
 }
