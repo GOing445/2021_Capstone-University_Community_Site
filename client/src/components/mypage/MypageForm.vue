@@ -52,15 +52,16 @@
               <p>친구 요청 목록</p>
               <template v-for="(user, idx) in users">
                 <list-item
+                  @removeItem="removeItem"
                   :user="user"
-                  :key="user.title"
-                  @click-menu="showMenuList"
+                  :idx="idx"
+                  :key="user.id"
                 />
                 <v-divider v-if="idx < users.length" :key="idx"></v-divider>
               </template>
             </v-card-text>
             <v-card-actions>
-              <v-btn text @click="copyCode">모두 수락하기</v-btn>
+              <!-- <v-btn text @click="copyCode">모두 수락하기</v-btn> -->
             </v-card-actions>
           </v-card>
         </v-col>
@@ -86,7 +87,7 @@ import ListItem from "@/components/mypage/ListItem";
 
 import { mapState } from "vuex";
 import { logout } from "@/api/login";
-import { fetchWaitingFriends } from "@/api/friends";
+import { waitingFriends } from "@/api/friends";
 
 export default {
   components: {
@@ -95,7 +96,7 @@ export default {
 
   data() {
     return {
-      users: [{ title: "title", avatar: "test", status: "test" }],
+      users: [],
     };
   },
 
@@ -103,9 +104,8 @@ export default {
     ...mapState(["id", "username", "stateMessage", "email", "avatar", "code"]),
   },
 
-  async created() {
-    const { data } = await fetchWaitingFriends(this.code);
-    console.log(data);
+  created() {
+    this.fetchWaitingFriends();
   },
 
   methods: {
@@ -134,6 +134,28 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+
+    async fetchWaitingFriends() {
+      try {
+        const { data } = await waitingFriends();
+        for (const user of data) {
+          const userData = {
+            id: user.id,
+            username: user.name,
+            invCode: user.invCode,
+            date: user.registDate,
+            avatar: user.picture,
+          };
+          this.users.push(userData);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    removeItem(idx) {
+      this.users.splice(idx - 1, 1);
     },
   },
 };
