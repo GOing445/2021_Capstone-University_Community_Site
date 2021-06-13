@@ -18,7 +18,10 @@ module.exports = function(app, fs, db){
         if(req.session.passport){
             var user = req.session.passport.user;
             var schedule = await db.getScheduleByID(req.params.schedule_ID);
-            if(schedule.owner!=user.id){ //자신의 스케줄이 아니면 거절
+            if(!schedule){
+                res.status(403).json({error:{status:403,desc:"403 error - Schedule not found"}});
+            }
+            else if(schedule.owner!=user.id){ //자신의 스케줄이 아니면 거절
                 res.status(403).json({error:{status:403,desc:"403 error - Request Rejected"}});
             }
             else{ 
