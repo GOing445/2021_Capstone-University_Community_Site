@@ -173,19 +173,25 @@ module.exports.deleteScheduleByID = async function(schedule_ID,callback){
         }
     });
 }
-module.exports.addSchedule = async function(user_id,schedule,callback){
+module.exports.addSchedule = async function(user_id,schedule_data,callback){
     return new Promise(function(resolve,reject){
         //쿼리
-        let qqq = `INSERT INTO \`${db_config.database}\`.\`Schedule\` (\`owner\`, \`day\`, \`className\`, \`classroom\`, \`start\`, \`end\`, \`memo\`) VALUES (${mysql.escape(user_id)}, ${mysql.escape(schedule.day)}, ${mysql.escape(schedule.className)}, ${mysql.escape(schedule.classroom)}, ${mysql.escape(schedule.start)}, ${mysql.escape(schedule.end)}, ${mysql.escape(schedule.memo)});`;
+        let qqq = `INSERT INTO \`${db_config.database}\`.\`Schedule\` (\`owner\`, \`day\`, \`className\`, \`classroom\`, \`start\`, \`end\`, \`memo\`) VALUES (${mysql.escape(user_id)}, ${mysql.escape(schedule_data.day)}, ${mysql.escape(schedule_data.className)}, ${mysql.escape(schedule_data.classroom)}, ${mysql.escape(schedule_data.start)}, ${mysql.escape(schedule_data.end)}, ${mysql.escape(schedule_data.memo)});`;
         connection.query(qqq, function(err, rows, fields) { // DB에 요청보내기
             if(err)console.log(err); // 로그
-            // global.DB.users.get(user_id).schedules.push(schedule);
-            global.DB.users.get(user_id).schedules.set(rows.insertId,schedule);
+            user = global.DB.users.get(user_id);
+            // console.log("삭제대상 유저 : ",user);
+
+            schedule_data.owner = user;
+            schedule_data.id = rows.insertId;
+            let schedule = new Schedule(schedule_data) // 새객체
+            schedule.init(schedule_data); // 데이터채우기
+
+            user.schedules.set(rows.insertId,schedule);
             global.DB.schedules.set(rows.insertId,schedule);
-            console.log(global.DB.users.get(user_id));
+
             if(callback)callback(err, rows); // 콜백함수
             resolve(rows);
-            // module.exports.fatchUsers(); // 데이터베이스에 변동이 생겼으니 동기화해주기
         });
     });
 }
