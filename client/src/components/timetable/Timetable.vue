@@ -107,7 +107,7 @@ export default {
       for (const node of timetable) {
         const el = node[1];
         const addClass = {
-          id: el.id,
+          id: node[0],
           name: el.className,
           classroom: el.classroom,
           memo: el.memo,
@@ -117,7 +117,6 @@ export default {
         addClass.start = `${formatDate(newDay)} ${el.start}`;
         addClass.end = `${formatDate(newDay)} ${el.end}`;
         this.events.push(addClass);
-        console.log(addClass);
       }
     },
 
