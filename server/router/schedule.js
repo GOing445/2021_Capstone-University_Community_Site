@@ -20,7 +20,7 @@ module.exports = function(app, fs, db){
             var schedule = await db.getScheduleByID(req.params.schedule_ID);
             if(!schedule){
                 res.status(403).json({error:{status:403,desc:"403 error - Schedule not found"}});
-            }
+            }   
             else if(schedule.owner!=user.id){ //자신의 스케줄이 아니면 거절
                 res.status(403).json({error:{status:403,desc:"403 error - Request Rejected"}});
             }
@@ -44,7 +44,7 @@ module.exports = function(app, fs, db){
     });
     app.put('/schedule/:schedule_id',async function(req,res){
         if(req.session.passport){
-            if(!global.DB.users.get(req.session.passport.user.id).schedules.get(req.params.schedule_id)){
+            if(!global.DB.users.get(req.session.passport.user.id).schedules.get(Number(req.params.schedule_id))){
                 res.status(403).json({response:{status:403,desc:"403 error - Request Rejected"}});
             }
             else{
