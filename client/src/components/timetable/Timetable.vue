@@ -28,7 +28,7 @@
         :selectedStart="selectedEvent.start"
         :selectedEnd="selectedEvent.end"
         :selectedClassroom="selectedEvent.classroom"
-        :selectedMemo="'123'"
+        :selectedMemo="selectedEvent.memo"
         @delete-class="showDialog = true"
       />
     </v-menu>
