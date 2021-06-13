@@ -36,9 +36,9 @@ export default {
       try {
         this.$emit("close-dialog");
         this.$store.commit("openLoadingSpinner");
-        const res = await DeleteMyClass(this.selectedId);
+        const { data } = await DeleteMyClass(this.selectedId);
         this.$store.commit("closeLoadingSpinner");
-        if (res.data.response.status === 202) {
+        if (data.response.status === 202) {
           this.$store.commit(
             "openSnackbar",
             `${this.selectedName} 수업이 삭제되었습니다!`
