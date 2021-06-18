@@ -15,9 +15,20 @@ function PostMyClass(classData) {
   return instance.post("/schedule", classData);
 }
 
+// 내 수업 수정하기
+function EditMyClass(id, classData) {
+  return instance.put(`/schedule/${id}`, classData);
+}
+
 // 내 수업 지우기
 function DeleteMyClass(id) {
   return instance.delete(`/schedule/${id}`);
 }
 
-export { fetchTestTimeTable, fetchMyTimeTable, PostMyClass, DeleteMyClass };
+export {
+  fetchTestTimeTable,
+  fetchMyTimeTable,
+  EditMyClass,
+  PostMyClass,
+  DeleteMyClass,
+};

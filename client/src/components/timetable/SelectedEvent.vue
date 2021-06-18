@@ -1,9 +1,9 @@
 <template>
   <v-card min-width="350px">
     <v-toolbar color="primary" dark>
-      <v-toolbar-title v-html="selectedName"> </v-toolbar-title>
+      <v-toolbar-title v-html="selectedName"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon @click="$router.push('/edit_class')">
+      <v-btn icon @click="$router.push(`/edit_class/${selectedId}`)">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
       <v-btn icon @click="$emit('delete-class')">

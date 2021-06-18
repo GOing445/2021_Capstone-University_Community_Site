@@ -122,6 +122,7 @@ export default {
     async fetchFriendsList() {
       try {
         const { data } = await fetchFriendsList();
+        console.log(data);
         this.users = data;
       } catch (error) {
         console.log(error);

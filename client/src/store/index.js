@@ -14,6 +14,7 @@ export default new Vuex.Store({
     code: "",
     snackbar: { state: false, message: "" },
     loading: false,
+    selectedEvent: {},
   },
   getters: {
     isLogin(state) {

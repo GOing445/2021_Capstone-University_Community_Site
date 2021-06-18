@@ -20,7 +20,7 @@ const routes = [
     meta: { auth: true },
   },
   {
-    path: "/edit_class",
+    path: "/edit_class/:id",
     component: () => import("@/views/EditClassPage.vue"),
     meta: { auth: true },
   },
