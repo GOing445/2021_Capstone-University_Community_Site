@@ -10,6 +10,11 @@
 
 ### 📅 <a href="https://chrome.google.com/webstore/detail/%EB%8C%80%EB%A6%BC%ED%94%BD/beabgbjleckdhifhckdekgjkhnkinnjf?hl=ko&">chrome 웹 스토어에서 다운로드</a>
 
+
+![시간표](./guide/시간표.gif)
+![친구](./guide/친구.gif)
+![대림](./guide/대림.gif)
+
 ## Scripts 👨‍💻
 
 ```json
